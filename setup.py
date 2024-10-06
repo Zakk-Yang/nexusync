@@ -6,14 +6,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="ollama_rag",
-    version="0.4.1",
+    name="nexusync",
+    version="0.1.1",
     author="Zakk Yang",
     author_email="zakkyang@protonmail.com",
-    description="A RAG (Retrieval-Augmented Generation) system using Llama Index and ChromaDB",
+    description="A powerful document indexing and querying tool built on top of LlamaIndex",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Zakk-Yang/ollama-rag.git",  # Replace with your repository URL
+    url="https://github.com/Zakk-Yang/nexusync.git",  # Replace with your repository URL
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -28,11 +28,7 @@ setup(
         "chromadb",
         "llama-index-vector-stores-chroma",
         "pandas",
+        "python-dotenv",
     ],
     include_package_data=True,  # Ensures files specified in MANIFEST.in are included
-    # entry_points={
-    #     "console_scripts": [
-    #         "ollama-rag=ollama_rag.ollama_rag:main",  # Points to the standalone main function
-    #     ],
-    # },
 )
