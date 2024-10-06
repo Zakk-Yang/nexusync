@@ -8,6 +8,7 @@ from llama_index.core import (
 import logging
 from llama_index.core.postprocessor import SentenceEmbeddingOptimizer
 from llama_index.core.postprocessor import KeywordNodePostprocessor
+from nexusync.utils.logging_config import get_logger
 
 
 class Querier:
@@ -19,9 +20,11 @@ class Querier:
             index (VectorStoreIndex): The index to be used for querying.
         """
         self.index = index
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_logger("nexusync.core.querier")
 
-    def query(self, text_qa_template: str, query: str) -> Dict[str, Any]:
+    def query(
+        self, text_qa_template: str, query: str, similarity_top_k: int = 3
+    ) -> Dict[str, Any]:
         """
         Query the index using a query engine.
 
@@ -36,7 +39,7 @@ class Querier:
             qa_template = PromptTemplate(text_qa_template)
             query_engine = self.index.as_query_engine(
                 text_qa_template=qa_template,
-                similarity_top_k=3,
+                similarity_top_k=similarity_top_k,
                 node_postprocessors=[
                     SentenceEmbeddingOptimizer(percentile_cutoff=0.5),
                     KeywordNodePostprocessor(required_keywords=[]),

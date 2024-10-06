@@ -1,11 +1,11 @@
 from typing import Dict, Any, List
-from llama_index import VectorStoreIndex, PromptTemplate
+from llama_index.core import VectorStoreIndex, PromptTemplate
 from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.core.postprocessor import (
     SentenceEmbeddingOptimizer,
     KeywordNodePostprocessor,
 )
-import logging
+from nexusync.utils.logging_config import get_logger
 
 
 class ChatEngine:
@@ -16,10 +16,10 @@ class ChatEngine:
         Args:
             index (VectorStoreIndex): The index to be used for querying in chat.
         """
+        self.logger = get_logger("nexusync.core.chat_engine")
         self.index = index
         self.chat_engine = None
         self.chat_history = []
-        self.logger = logging.getLogger(__name__)
 
     def initialize_chat_engine(self, text_qa_template: str, chat_mode: str = "context"):
         """

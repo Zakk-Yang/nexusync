@@ -1,6 +1,7 @@
 from typing import Optional
-from llama_index.llms import OpenAI, Ollama
-from llama_index import Settings
+from llama_index.llms.ollama import Ollama
+from llama_index.llms.openai import OpenAI
+from llama_index.core import Settings
 import os
 from dotenv import load_dotenv
 
@@ -8,7 +9,7 @@ from dotenv import load_dotenv
 def set_language_model(
     openai_model: Optional[str] = None,
     ollama_model: Optional[str] = None,
-    temperature: Optional[float] = None,
+    temperature: Optional[float] = 0.7,
 ) -> None:
     """
     Set up the language model for the index.

@@ -1,6 +1,7 @@
 from typing import Optional
-from llama_index.embeddings import OpenAIEmbedding, HuggingFaceEmbedding
-from llama_index import Settings
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+from llama_index.embeddings.openai import OpenAIEmbedding
+from llama_index.core import Settings
 import os
 from dotenv import load_dotenv
 

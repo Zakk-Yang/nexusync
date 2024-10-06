@@ -6,6 +6,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     name="nexusync",
     version="0.1.1",
     author="Zakk Yang",
@@ -14,7 +16,6 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Zakk-Yang/nexusync.git",  # Replace with your repository URL
-    packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",  # Choose your license
