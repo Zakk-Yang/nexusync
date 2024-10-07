@@ -48,7 +48,7 @@ Next, we initiate the `NexuSync` class and initiate a simple query.
 
 ```python
 # Initialize NexuSync
-ns = NexuSync(input_dirs=[INPUT_DIRS])
+ns = NexuSync(input_dirs=INPUT_DIRS)
 
 # Refresh with one line of code (upinsert or delete incrementally)
 ns.refresh_index()

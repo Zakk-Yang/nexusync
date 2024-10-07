@@ -15,6 +15,21 @@ from nexusync.utils.logging_config import get_logger
 
 
 class Indexer:
+    """
+    Indexer is responsible for managing the indexing operations, including creating, refreshing,
+    and deleting documents from the index. It supports integration with Chroma for efficient similarity search.
+
+    Attributes:
+        input_dirs (List[str]): A list of directory paths containing documents to be indexed.
+        recursive (bool): Indicates if subdirectories within input_dirs should be scanned for documents.
+        chroma_db_dir (str): The directory where the Chroma database is stored.
+        index_persist_dir (str): The directory where the index is persisted to disk for future use.
+        chroma_collection_name (str): The name of the collection within the Chroma database.
+        index (VectorStoreIndex): The current index instance, loaded or created during initialization.
+        logger (logging.Logger): A logger instance for logging operations and errors.
+        storage_context (StorageContext): The context for managing the storage and loading of the index.
+    """
+
     def __init__(
         self,
         input_dirs: List[str],
@@ -69,6 +84,12 @@ class Indexer:
         self._initiate()
 
     def _initiate(self):
+        """
+        Load an existing index from storage or create a new one if not found.
+
+        Raises:
+            ValueError: If no documents are found in the specified directories.
+        """
         try:
             self.storage_context = StorageContext.from_defaults(
                 persist_dir=self.index_persist_dir
@@ -108,7 +129,13 @@ class Indexer:
             raise
 
     def refresh(self):
-        """Refresh the index by performing both upinsert and delete operations incrementally."""
+        """
+        Refresh the index by performing incremental updates and deletions based on the current
+        state of the files.
+
+        Raises:
+            RuntimeError: If an error occurs during the refresh process.
+        """
         self.logger.info("Starting index refresh process...")
         try:
             # Step 1: Collect current files
@@ -143,7 +170,12 @@ class Indexer:
             raise
 
     def upinsert(self):
-        """Smartly upsert (update or insert) documents into the index based on changes or new additions."""
+        """
+        Upsert (update or insert) documents into the index based on changes or new additions.
+
+        Raises:
+            RuntimeError: If an error occurs while performing the upinsert operation.
+        """
         total_documents = 0
         total_refreshed = 0
 
