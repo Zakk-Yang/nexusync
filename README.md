@@ -31,20 +31,62 @@ Here's a simple example to get you started with NexuSync:
 from nexusync import NexuSync
 from nexusync.models import set_embedding_model, set_language_model
 
-# Set up open-source models from ollama
-set_embedding_model(huggingface_model="BAAI/bge-base-en-v1.5")
-set_language_model(ollama_model="llama3.2", temperature=0.4)
+EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5"
+LLM_MODEL = 'llama3.2'
+TEMPERATURE = 0.4
+INPUT_DIRS = ["../sample_docs"] # can put multiple folder paths
 
-# Set up models for openai models
-set_embedding_model(openai_model="text-embedding-ada-002")
-set_language_model(openai_model="gtp-4o-mini", temperature=0.4)
+# Set up open-source models from ollama
+set_embedding_model(huggingface_model= EMBEDDING_MODEL) 
+set_language_model(ollama_model = LLM_MODEL, temperature=TEMPERATURE)
+
+# Or, set up models for openai models (create .env to include your OPENAI_API_KEY)
+# set_embedding_model(openai_model="text-embedding-ada-002")
+# set_language_model(openai_model="gtp-4o-mini", temperature=0.4)
 
 # Initialize NexuSync
 ns = NexuSync(input_dirs=["path/to/your/documents"])
 
+# Refresh with one line of code (upinsert or delete incrementally)
+ns.refresh_index()
+
+# Prepare your instruction prompt
+text_qa_template = (
+    "Context information is below.\n"
+    "---------------------\n"
+    "{context_str}\n"
+    "---------------------\n"
+    "Given the context information above, I want you to think step by step to answer the query in a crisp manner. "
+    "In case you don't know the answer, say 'I don't know!'.\n"
+    "Query: {query_str}\n"
+    "Answer: "
+)
+
+
 # Perform a query
-response = ns.query("What is the capital of France?")
-print(response['response'])
+query = "News about Nvidia?"
+response = ns.query(text_qa_template = text_qa_template, query = query )
+
+print(f"Query: {query}")
+print(f"Response: {response['response']}")
+print(f"Response: {response['metadata']}")
+
+# Perform a stream chat (word by word output)
+# Initiate the chat engine once
+ns.chat_engine.initialize_chat_engine(text_qa_template, chat_mode="context")
+
+# Print each token as it's generated
+response_generator = ns.chat_engine.chat_stream(query)
+for item in response_generator:
+    if isinstance(item, str):
+        print(item, end='', flush=True)
+    else:
+        # This is the final yield with the full response and metadata
+        full_response = item
+        break
+
+print("\n\nFull response:", full_response['response'])
+print("Metadata:", full_response['metadata'])
 ```
 
 For more detailed usage examples, check out the demo notebooks.
