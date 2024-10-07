@@ -108,7 +108,7 @@ class Indexer:
             raise
 
     def refresh(self):
-        """Refresh the index by performing both upinsert and delete operations."""
+        """Refresh the index by performing both upinsert and delete operations incrementally."""
         self.logger.info("Starting index refresh process...")
         try:
             # Step 1: Collect current files
@@ -126,10 +126,10 @@ class Indexer:
 
             # Step 4: Verify and log the results
             updated_stats = self.get_index_stats()
-            self.logger.info(
-                f"Index refresh completed. Current file count: {updated_stats['num_documents']}"
-            )
-            self.logger.info(f"Total files in input directories: {len(current_files)}")
+            # self.logger.info(
+            #     f"Index refresh completed. Current file count: {updated_stats['num_documents']}"
+            # )
+            # self.logger.info(f"Total files in input directories: {len(current_files)}")
 
             if updated_stats["num_documents"] != len(current_files):
                 self.logger.warning(
@@ -153,21 +153,18 @@ class Indexer:
                 input_dir, recursive=self.recursive, filename_as_id=True
             ).load_data()
             total_documents += len(documents)
-            self.logger.info(f"Loaded {len(documents)} documents from {input_dir}")
+            loaded_file_count = self.get_index_stats()["num_documents"]
+            self.logger.info(f"Loaded {loaded_file_count} files from {input_dir}")
 
             refreshed_docs = self.index.refresh_ref_docs(documents)
             num_refreshed = sum(1 for r in refreshed_docs if r)
             total_refreshed += num_refreshed
-            self.logger.info(f"Updated {num_refreshed} documents in {input_dir}")
+            self.logger.info(f"Updated {num_refreshed} files in {input_dir}")
 
             for doc, is_refreshed in zip(documents, refreshed_docs):
                 if is_refreshed:
                     doc_path = doc.metadata.get("file_path", "Unknown path")
-                    self.logger.info(f"Updated document: {doc_path}")
-
-        self.logger.info(
-            f"Upsert operation completed. Total chunks processed: {total_documents}, updated or inserted: {total_refreshed} files"
-        )
+                    self.logger.info(f"Updated file: {doc_path}")
 
     def delete(self, current_files: set):
         """Delete documents from the index if their corresponding files have been deleted from the filesystem."""
@@ -177,6 +174,7 @@ class Indexer:
         for doc_id, info in ref_doc_info.items():
             file_path = info.metadata.get("file_path")
             if file_path and os.path.abspath(file_path) not in current_files:
+                self.logger.info(f"Deleted file: {file_path}")
                 deleted_docs.append(doc_id)
 
         if deleted_docs:

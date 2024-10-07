@@ -28,7 +28,11 @@ setup(
         "llama-index-embeddings-huggingface",
         "chromadb",
         "llama-index-vector-stores-chroma",
-        "pandas",
+        "torch" "transformers",
+        "python-pptx",
+        "Pillow",
+        "docx2txt",
+        "openpyxl",
         "python-dotenv",
     ],
     include_package_data=True,  # Ensures files specified in MANIFEST.in are included

@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Generator
 from llama_index.core import VectorStoreIndex, PromptTemplate
 from llama_index.core.memory import ChatMemoryBuffer
 from llama_index.core.postprocessor import (
@@ -86,6 +86,56 @@ class ChatEngine:
                 "response": f"An error occurred while processing your request: {str(e)}",
                 "metadata": {},
             }
+
+    def chat_stream(self, query: str) -> Generator[str, None, Dict[str, Any]]:
+        """
+        Process a query using the chat engine and stream the response.
+
+        Args:
+            query (str): The user's query string.
+
+        Yields:
+            str: Chunks of the response as they are generated.
+
+        Returns:
+            Dict[str, Any]: A dictionary containing the full response and metadata.
+
+        Raises:
+            ValueError: If the chat engine is not initialized.
+        """
+        if self.chat_engine is None:
+            raise ValueError(
+                "Chat engine not initialized. Call initialize_chat_engine first."
+            )
+
+        try:
+            response_stream = self.chat_engine.stream_chat(query)
+
+            full_response = ""
+            for token in response_stream.response_gen:
+                full_response += token
+                yield token
+
+            metadata: Dict[str, List[Dict[str, Any]]] = {"sources": []}
+
+            if hasattr(response_stream, "source_nodes"):
+                for node in response_stream.source_nodes:
+                    source_info = {
+                        "source_text": node.node.get_text(),
+                        "metadata": node.node.metadata,
+                    }
+                    metadata["sources"].append(source_info)
+
+            self.chat_history.append({"query": query, "response": full_response})
+
+            # Yield the full response and metadata as the final item
+            yield {"response": full_response, "metadata": metadata}
+
+        except Exception as e:
+            self.logger.error(f"An error occurred during chat: {e}", exc_info=True)
+            error_message = f"An error occurred while processing your request: {str(e)}"
+            yield error_message
+            yield {"response": error_message, "metadata": {}}
 
     def clear_chat_history(self):
         """

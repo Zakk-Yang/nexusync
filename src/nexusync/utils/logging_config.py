@@ -1,22 +1,26 @@
-# utils/logging_config.py
 import logging
+import warnings
+
+
+def silence_all_warnings():
+    # Ignore all warnings
+    warnings.filterwarnings("ignore")
 
 
 def get_logger(name):
+    # Silence all warnings
+    silence_all_warnings()
+
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)  # Set the desired log level
 
     if not logger.handlers:
-        # Configure handlers only if none exist
+        logger.setLevel(logging.INFO)
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
             "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-
-    logger.propagate = (
-        False  # Prevent log messages from being propagated to ancestor loggers
-    )
+        logger.propagate = False  # Prevent propagation to ancestor loggers
 
     return logger
