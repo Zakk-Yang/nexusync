@@ -3,7 +3,7 @@
 NexuSync is a powerful document indexing and querying tool built on top of LlamaIndex. It allows you to efficiently manage, search, and interact with large collections of documents using advanced natural language processing techniques.
 
 <p align="center">
-  <img src="assets/nexusync_logo.png" alt="NexuSync Logo" width="200"/>
+  <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/nexusync_logo.png" alt="NexuSync Logo" width="200"/>
 </p>
 
 ## Features
@@ -47,37 +47,4 @@ response = ns.query("What is the capital of France?")
 print(response['response'])
 ```
 
-For more detailed usage examples, check out our [demo notebook](./examples/nexusync-demo.ipynb).
-
-## Documentation
-
-For full documentation, visit our [documentation site](https://nexusync.readthedocs.io/).
-
-## Contributing
-
-We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for more details.
-
-## License
-
-NexuSync is released under the [MIT License](LICENSE).
-
-## Support
-
-If you encounter any issues or have questions, please [file an issue](https://github.com/yourusername/nexusync/issues) on our GitHub repository.
-
-## Citation
-
-If you use NexuSync in your research, please cite it as follows:
-
-```bibtex
-@software{nexusync2024,
-  author = {Your Name},
-  title = {NexuSync: Efficient Document Indexing and Querying},
-  year = {2024},
-  url = {https://github.com/yourusername/nexusync}
-}
-```
-
-## Acknowledgements
-
-NexuSync is built on top of [LlamaIndex](https://github.com/jerryjliu/llama_index) and uses various open-source libraries. We're grateful to the developers of these projects for their contributions to the community.
+For more detailed usage examples, check out the demo notebooks.
