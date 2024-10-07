@@ -38,14 +38,17 @@ INPUT_DIRS = ["../sample_docs"] # can put multiple folder paths
 
 # Set up open-source models from ollama
 set_embedding_model(huggingface_model= EMBEDDING_MODEL) 
-set_language_model(ollama_model = LLM_MODEL, temperature=TEMPERATURE)
+set_language_model(ollama_model = LLM_MODEL, temperature=TEMPERATURE)\
 
 # Or, set up models for openai models (create .env to include your OPENAI_API_KEY)
 # set_embedding_model(openai_model="text-embedding-ada-002")
 # set_language_model(openai_model="gtp-4o-mini", temperature=0.4)
+```
+Next, we initiate the `NexuSync` class and initiate a simple query.
 
+```python
 # Initialize NexuSync
-ns = NexuSync(input_dirs=["path/to/your/documents"])
+ns = NexuSync(input_dirs=[INPUT_DIRS])
 
 # Refresh with one line of code (upinsert or delete incrementally)
 ns.refresh_index()
@@ -70,8 +73,10 @@ response = ns.query(text_qa_template = text_qa_template, query = query )
 print(f"Query: {query}")
 print(f"Response: {response['response']}")
 print(f"Response: {response['metadata']}")
+```
 
-# Perform a stream chat (word by word output)
+Chat in a word-by-word stream chat style: 
+```python
 # Initiate the chat engine once
 ns.chat_engine.initialize_chat_engine(text_qa_template, chat_mode="context")
 
