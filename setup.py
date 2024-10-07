@@ -9,7 +9,7 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     name="nexusync",
-    version="0.1.1",
+    version="0.1.2",
     author="Zakk Yang",
     author_email="zakkyang@protonmail.com",
     description="A powerful document indexing and querying tool built on top of LlamaIndex",
