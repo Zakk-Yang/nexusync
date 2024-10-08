@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f6f9;
             display: flex;
             flex-direction: column;
@@ -24,10 +24,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            margin: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 800px;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
             background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
@@ -39,60 +42,72 @@
         }
 
         .message {
-            margin-bottom: 15px;
-            line-height: 1.5;
+            margin-bottom: 20px;
+            display: flex;
         }
 
         .user-message {
-            text-align: right;
+            justify-content: flex-end;
         }
 
         .assistant-message {
-            text-align: left;
+            justify-content: flex-start;
         }
 
         .message p {
-            display: inline-block;
-            padding: 10px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 20px;
             max-width: 70%;
+            position: relative;
+            word-wrap: break-word;
         }
 
         .user-message p {
             background-color: #dcf8c6;
             color: #000;
+            border-bottom-right-radius: 0;
         }
 
         .assistant-message p {
             background-color: #f1f0f0;
             color: #000;
+            border-bottom-left-radius: 0;
         }
 
         /* Input area */
         #input-area {
             display: flex;
-            padding: 10px;
+            padding: 15px;
             border-top: 1px solid #ccc;
+            background-color: #f9f9f9;
         }
 
         #user-input {
             flex: 1;
-            padding: 10px;
+            padding: 12px 20px;
             font-size: 16px;
             border: 1px solid #ccc;
-            border-radius: 20px;
+            border-radius: 25px;
             outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #user-input:focus {
+            border-color: #007bff;
         }
 
         #send-button {
             background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 0 20px;
-            margin-left: 10px;
-            border-radius: 20px;
+            padding: 0 25px;
+            margin-left: 15px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
+            width: 50px;
+            height: 50px;
+            transition: background-color 0.3s;
         }
 
         #send-button:hover {
@@ -112,6 +127,87 @@
         #chat-display::-webkit-scrollbar-thumb:hover {
             background-color: #aaa;
         }
+
+        /* Typing indicator */
+        .typing-indicator::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-left: 5px;
+            border-radius: 50%;
+            background-color: #555;
+            animation: blink 1.4s infinite both;
+        }
+
+        .typing-indicator:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+            0%, 80%, 100% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+        }
+
+        /* Sources styling */
+        .sources {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .sources strong {
+            font-weight: bold;
+        }
+
+        .sources a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .sources a:hover {
+            text-decoration: underline;
+        }
+
+        /* Control buttons */
+        #control-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        #control-buttons button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        #control-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -121,14 +217,20 @@
         </div>
         <div id="input-area">
             <input type="text" id="user-input" placeholder="Type your message here..." autofocus />
-            <button id="send-button">Send</button>
+            <button id="send-button">&#9658;</button>
         </div>
+    </div>
+    <div id="control-buttons">
+        <button id="reset-button">Reset Chat</button>
+        <button id="refresh-button">Refresh</button>
     </div>
 
     <script>
         const chatDisplay = document.getElementById('chat-display');
         const userInput = document.getElementById('user-input');
         const sendButton = document.getElementById('send-button');
+        const resetButton = document.getElementById('reset-button');
+        const refreshButton = document.getElementById('refresh-button');
 
         sendButton.addEventListener('click', () => {
             const message = userInput.value.trim();
@@ -146,49 +248,60 @@
             }
         });
 
+        resetButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset the chat history?')) {
+                chatDisplay.innerHTML = '';
+            }
+        });
+
+        refreshButton.addEventListener('click', () => {
+            location.reload();
+        });
+
         function addUserMessage(message) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', 'user-message');
-            messageElement.innerHTML = `<p>${message}</p>`;
+            messageElement.innerHTML = `<p>${escapeHTML(message)}</p>`;
             chatDisplay.appendChild(messageElement);
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            scrollToBottom();
         }
 
         function addAssistantMessage() {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', 'assistant-message');
             const messageContent = document.createElement('p');
+            messageContent.classList.add('typing-indicator');
             messageElement.appendChild(messageContent);
             chatDisplay.appendChild(messageElement);
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            scrollToBottom();
             return messageContent;
         }
 
         async function sendMessage(message) {
             const assistantMessageContent = addAssistantMessage();
-
+        
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: message })
                 });
-
+        
                 if (!response.ok) {
                     throw new Error(`Server error: ${response.statusText}`);
                 }
-
+        
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder('utf-8');
                 let done = false;
                 let accumulatedText = '';
-
+        
                 while (!done) {
                     const { value, done: doneReading } = await reader.read();
                     done = doneReading;
                     const chunk = decoder.decode(value, { stream: true });
                     const lines = chunk.split('\n').filter(line => line.trim() !== '');
-
+        
                     for (const line of lines) {
                         let data;
                         try {
@@ -197,27 +310,83 @@
                             console.error('Error parsing JSON:', e);
                             continue;
                         }
-
+        
                         if (data.response) {
+                            if (accumulatedText === '') {
+                                assistantMessageContent.classList.remove('typing-indicator');
+                                assistantMessageContent.innerHTML = '';
+                            }
+                            // Accumulate only the new token
                             accumulatedText += data.response;
-                            assistantMessageContent.textContent = accumulatedText;
-                            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+                            assistantMessageContent.innerHTML = formatResponse(accumulatedText);
+                            scrollToBottom();
                         }
-
+        
                         if (data.error) {
-                            assistantMessageContent.textContent = `Error: ${data.error}`;
-                            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+                            assistantMessageContent.classList.remove('typing-indicator');
+                            assistantMessageContent.innerHTML = `<p class="error-message">${escapeHTML(data.error)}</p>`;
+                            scrollToBottom();
                             return;
                         }
                     }
                 }
             } catch (error) {
                 console.error('Error during fetch:', error);
-                const errorMessage = `Error: ${error.message}`;
-                assistantMessageContent.textContent = errorMessage;
-                chatDisplay.scrollTop = chatDisplay.scrollHeight;
+                assistantMessageContent.classList.remove('typing-indicator');
+                assistantMessageContent.innerHTML = `<p class="error-message">Error: ${escapeHTML(error.message)}</p>`;
+                scrollToBottom();
             }
         }
+        
+
+        function formatResponse(responseText) {
+            // Split response and sources
+            const sourcesMarker = '\n\n**Sources:**\n';
+            const [response, sources] = responseText.split(sourcesMarker);
+            let formattedResponse = `<p>${escapeHTML(response.trim())}</p>`;
+            if (sources) {
+                const sourcesList = sources.trim().split('\n').map(source => {
+                    return escapeHTML(source);
+                }).join('<br>');
+                formattedResponse += `<div class="sources"><strong>Sources:</strong><br>${sourcesList}</div>`;
+            }
+            return formattedResponse;
+        }
+
+        function scrollToBottom() {
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        // Utility function to escape HTML to prevent XSS
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+        function resetChat() {
+            if (confirm('Are you sure you want to reset the chat history?')) {
+                // Clear the chat display
+                chatDisplay.innerHTML = '';
+        
+                // Send a request to the backend to reset chat history
+                fetch('/reset_chat', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        console.log(data.status);
+                    } else if (data.error) {
+                        console.error(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error resetting chat history:', error);
+                });
+            }
+        }
+        
     </script>
 </body>
 </html>

@@ -19,7 +19,7 @@ class ChatEngine:
         self.logger = get_logger("nexusync.core.chat_engine")
         self.index = index
         self.chat_engine = None
-        self.chat_history = ([],)
+        self.chat_history = []
 
     def initialize_chat_engine(
         self,
@@ -93,22 +93,7 @@ class ChatEngine:
                 "metadata": {},
             }
 
-    def chat_stream(self, query: str) -> Generator[str, None, Dict[str, Any]]:
-        """
-        Process a query using the chat engine and stream the response.
-
-        Args:
-            query (str): The user's query string.
-
-        Yields:
-            str: Chunks of the response as they are generated.
-
-        Returns:
-            Dict[str, Any]: A dictionary containing the full response and metadata.
-
-        Raises:
-            ValueError: If the chat engine is not initialized.
-        """
+    def chat_stream(self, query: str) -> Generator[str | Dict[str, Any], None, None]:
         if self.chat_engine is None:
             raise ValueError(
                 "Chat engine not initialized. Call initialize_chat_engine first."
@@ -120,10 +105,10 @@ class ChatEngine:
             full_response = ""
             for token in response_stream.response_gen:
                 full_response += token
-                yield token
+                yield token  # Yield each token as it's generated
 
-            metadata: Dict[str, List[Dict[str, Any]]] = {"sources": []}
-
+            # After all tokens have been yielded, prepare and yield the final response with metadata
+            metadata = {"sources": []}
             if hasattr(response_stream, "source_nodes"):
                 for node in response_stream.source_nodes:
                     source_info = {
@@ -132,23 +117,31 @@ class ChatEngine:
                     }
                     metadata["sources"].append(source_info)
 
+            # Append to chat history
             self.chat_history.append({"query": query, "response": full_response})
 
-            # Yield the full response and metadata as the final item
-            yield {"response": full_response, "metadata": metadata}
+            # Yield the final response with metadata
+            yield {
+                "response": full_response,
+                "metadata": metadata,
+            }
 
         except Exception as e:
-            self.logger.error(f"An error occurred during chat: {e}", exc_info=True)
-            error_message = f"An error occurred while processing your request: {str(e)}"
-            yield error_message
-            yield {"response": error_message, "metadata": {}}
+            self.logger.error(
+                f"An error occurred during chat streaming: {e}", exc_info=True
+            )
+            yield {
+                "response": f"An error occurred while processing your request: {str(e)}",
+                "metadata": {},
+            }
 
     def clear_chat_history(self):
-        """
-        Clear the chat history.
-        """
         self.chat_history = []
         self.logger.info("Chat history cleared")
+
+        if hasattr(self.chat_engine, "memory") and self.chat_engine.memory is not None:
+            self.chat_engine.memory.clear()
+            self.logger.info("Chat engine memory cleared")
 
     def get_chat_history(self) -> List[Dict[str, str]]:
         """
