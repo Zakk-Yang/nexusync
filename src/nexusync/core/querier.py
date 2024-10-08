@@ -1,4 +1,4 @@
-# querier.py
+# src/core/querier.py
 import logging
 from typing import List, Optional, Dict, Any
 from llama_index.core import (
@@ -31,6 +31,7 @@ class Querier:
         Args:
             text_qa_template (str): The template for the QA prompt.
             query (str): The query string.
+            similarity_top_k (int, optional): Number of top similar documents to consider. Defaults to 3.
 
         Returns:
             Dict[str, Any]: A dictionary containing the response and metadata.

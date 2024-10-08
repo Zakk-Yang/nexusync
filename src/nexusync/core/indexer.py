@@ -12,6 +12,7 @@ from llama_index.core import (
 from llama_index.vector_stores.chroma import ChromaVectorStore
 import chromadb
 from nexusync.utils.logging_config import get_logger
+import shutil
 
 
 class Indexer:
@@ -37,38 +38,20 @@ class Indexer:
         chroma_db_dir: str = "chroma_db",
         index_persist_dir: str = "index_storage",
         chroma_collection_name: str = "my_collection",
+        chunk_size: int = 1024,  # Default from llamaindex
+        chunk_overlap: int = 20,  # Default from llamaindex
     ):
         """
         Initialize the Indexer with the given parameters.
 
         Args:
-            input_dirs (List[str]): A list of directory paths containing the documents to be indexed.
-                                    These directories will be scanned for documents during indexing operations.
-
-            recursive (bool, optional): If True, subdirectories within input_dirs will also be scanned for documents.
-                                        Defaults to True.
-
-            chroma_db_dir (str, optional): The directory where the Chroma database will be stored.
-                                           Chroma is used as the vector store for efficient similarity search.
-                                           Defaults to "chroma_db".
-
-            index_persist_dir (str, optional): The directory where the index will be persisted to disk.
-                                               This allows for faster loading of pre-built indexes.
-                                               Defaults to "index_storage".
-
-            chroma_collection_name (str, optional): The name of the collection within the Chroma database.
-                                                    This allows for multiple distinct indexes within the same database.
-                                                    Defaults to 'my_collection'.
-
-        Attributes:
-            input_dirs (List[str]): Stores the list of input directories.
-            recursive (bool): Stores the recursive flag for directory scanning.
-            chroma_db_dir (str): Stores the Chroma database directory path.
-            index_persist_dir (str): Stores the index persistence directory path.
-            chroma_collection_name (str): Stores the Chroma collection name.
-            index (VectorStoreIndex): Will store the actual index once it's created or loaded.
-                                      Initially set to None.
-            logger (logging.Logger): A logger instance for this class, used for logging operations and errors.
+            input_dirs (List[str]): Directories containing documents to be indexed.
+            recursive (bool, optional): Scan subdirectories if True. Defaults to True.
+            chroma_db_dir (str, optional): Directory for Chroma database. Defaults to "chroma_db".
+            index_persist_dir (str, optional): Directory to persist the index. Defaults to "index_storage".
+            chroma_collection_name (str, optional): Name of the Chroma collection. Defaults to "my_collection".
+            chunk_size (int, optional): Size of each text chunk. Defaults to 1024.
+            chunk_overlap (int, optional): Overlap between chunks. Defaults to 20.
 
         Note:
             The __init__ method doesn't create the index immediately. Instead, it calls the _initiate method,
@@ -80,6 +63,8 @@ class Indexer:
         self.chroma_db_dir = chroma_db_dir
         self.index_persist_dir = index_persist_dir
         self.chroma_collection_name = chroma_collection_name
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
         self.index = None
         self._initiate()
 
@@ -127,6 +112,39 @@ class Indexer:
         except Exception as e:
             self.logger.error(f"An unexpected error occurred during initiation: {e}")
             raise
+
+    def rebuild_index(self):
+        """
+        Rebuild the entire index by deleting the existing index and recreating it.
+
+        This method can be used when new documents are added or when the embedding model has been changed.
+        """
+        # Step 1: Delete the existing index directory
+        if os.path.exists(self.indexer.index_persist_dir):
+            self.logger.info(
+                f"Deleting existing index directory: {self.indexer.index_persist_dir}"
+            )
+            shutil.rmtree(self.indexer.index_persist_dir)
+        else:
+            self.logger.warning(
+                f"Index directory {self.indexer.index_persist_dir} does not exist. Skipping deletion."
+            )
+
+        # Step 2: Delete the Chroma database directory (if applicable)
+        if os.path.exists(self.indexer.chroma_db_dir):
+            self.logger.info(
+                f"Deleting existing Chroma DB directory: {self.indexer.chroma_db_dir}"
+            )
+            shutil.rmtree(self.indexer.chroma_db_dir)
+        else:
+            self.logger.warning(
+                f"Chroma DB directory {self.indexer.chroma_db_dir} does not exist. Skipping deletion."
+            )
+
+        # Step 3: Reinitialize the indexer and rebuild the index
+        self.logger.info("Rebuilding the index with new settings or documents...")
+        self._initialize_indexer()
+        self.logger.info("Index rebuilt successfully.")
 
     def refresh(self):
         """

@@ -19,15 +19,21 @@ class ChatEngine:
         self.logger = get_logger("nexusync.core.chat_engine")
         self.index = index
         self.chat_engine = None
-        self.chat_history = []
+        self.chat_history = ([],)
 
-    def initialize_chat_engine(self, text_qa_template: str, chat_mode: str = "context"):
+    def initialize_chat_engine(
+        self,
+        text_qa_template: str,
+        chat_mode: str = "context",
+        similarity_top_k: int = 3,
+    ):
         """
         Initialize the chat engine.
 
         Args:
             text_qa_template (str): The template for the QA prompt.
             chat_mode (str, optional): The mode for the chat engine. Defaults to 'context'.
+            similarity_top_k (int, optional): Number of top similar documents to consider. Defaults to 3.
         """
         qa_template = PromptTemplate(text_qa_template)
         memory = ChatMemoryBuffer.from_defaults(token_limit=3000)
@@ -36,7 +42,7 @@ class ChatEngine:
             memory=memory,
             chat_mode=chat_mode,
             text_qa_template=qa_template,
-            similarity_top_k=3,
+            similarity_top_k=similarity_top_k,
             node_postprocessors=[
                 SentenceEmbeddingOptimizer(percentile_cutoff=0.7),
                 KeywordNodePostprocessor(required_keywords=[]),

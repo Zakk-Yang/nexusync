@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NexuSync Chat Interface</title>
+    <style>
+        /* Basic reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Chat container */
+        #chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+
+        /* Chat display area */
+        #chat-display {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .assistant-message {
+            text-align: left;
+        }
+
+        .message p {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .user-message p {
+            background-color: #dcf8c6;
+            color: #000;
+        }
+
+        .assistant-message p {
+            background-color: #f1f0f0;
+            color: #000;
+        }
+
+        /* Input area */
+        #input-area {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        #send-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 0 20px;
+            margin-left: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #send-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Scrollbar styling */
+        #chat-display::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-display::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        #chat-display::-webkit-scrollbar-thumb:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-display">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div id="input-area">
+            <input type="text" id="user-input" placeholder="Type your message here..." autofocus />
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatDisplay = document.getElementById('chat-display');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        sendButton.addEventListener('click', () => {
+            const message = userInput.value.trim();
+            if (message !== '') {
+                addUserMessage(message);
+                userInput.value = '';
+                sendMessage(message);
+            }
+        });
+
+        userInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+
+        function addUserMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'user-message');
+            messageElement.innerHTML = `<p>${message}</p>`;
+            chatDisplay.appendChild(messageElement);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        function addAssistantMessage() {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'assistant-message');
+            const messageContent = document.createElement('p');
+            messageElement.appendChild(messageContent);
+            chatDisplay.appendChild(messageElement);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            return messageContent;
+        }
+
+        async function sendMessage(message) {
+            const assistantMessageContent = addAssistantMessage();
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.statusText}`);
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                let done = false;
+                let accumulatedText = '';
+
+                while (!done) {
+                    const { value, done: doneReading } = await reader.read();
+                    done = doneReading;
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n').filter(line => line.trim() !== '');
+
+                    for (const line of lines) {
+                        let data;
+                        try {
+                            data = JSON.parse(line);
+                        } catch (e) {
+                            console.error('Error parsing JSON:', e);
+                            continue;
+                        }
+
+                        if (data.response) {
+                            accumulatedText += data.response;
+                            assistantMessageContent.textContent = accumulatedText;
+                            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+                        }
+
+                        if (data.error) {
+                            assistantMessageContent.textContent = `Error: ${data.error}`;
+                            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+                            return;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error during fetch:', error);
+                const errorMessage = `Error: ${error.message}`;
+                assistantMessageContent.textContent = errorMessage;
+                chatDisplay.scrollTop = chatDisplay.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Core dependencies for the project
+llama-index
+llama-index-llms-ollama
+llama-index-embeddings-huggingface
+llama-index-vector-stores-chroma
+torch
+transformers
+python-pptx
+Pillow
+docx2txt
+openpyxl
+python-dotenv
+spacy
+flask

@@ -1,3 +1,5 @@
+# src/utils/file_operations.py
+
 import os
 from typing import List, Tuple
 import hashlib

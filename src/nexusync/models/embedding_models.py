@@ -1,3 +1,5 @@
+# src/utils/embedding_models.py
+
 from typing import Optional
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.embeddings.openai import OpenAIEmbedding
