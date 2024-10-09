@@ -6,6 +6,7 @@ from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.core import Settings
 import os
 from dotenv import load_dotenv
+from nexusync.utils.logging_config import get_logger
 
 
 def set_embedding_model(
@@ -21,6 +22,9 @@ def set_embedding_model(
     Raises:
         ValueError: If both or neither embedding model is specified.
     """
+    logger = get_logger(
+        "nexusync.utils.embedding_models.set_embedding_model"
+    )  # Use full logger name
     load_dotenv()
 
     if (openai_model and huggingface_model) or (
@@ -37,7 +41,7 @@ def set_embedding_model(
         Settings.embed_model = OpenAIEmbedding(
             model=openai_model, api_key=openai_api_key
         )
-        print(f"Using OpenAI embedding model: {openai_model}")
+        logger.info(f"Using OpenAI embedding model: {openai_model}")
     else:
         Settings.embed_model = HuggingFaceEmbedding(model_name=huggingface_model)
-        print(f"Using HuggingFace embedding model: {huggingface_model}")
+        logger.info(f"Using HuggingFace embedding model: {huggingface_model}")

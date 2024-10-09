@@ -17,9 +17,9 @@ class ChatEngine:
             index (VectorStoreIndex): The index to be used for querying in chat.
         """
         self.logger = get_logger("nexusync.core.chat_engine")
-        self.index = index
         self.chat_engine = None
         self.chat_history = []
+        self.index = index
 
     def initialize_chat_engine(
         self,
@@ -37,6 +37,8 @@ class ChatEngine:
         """
         qa_template = PromptTemplate(text_qa_template)
         memory = ChatMemoryBuffer.from_defaults(token_limit=3000)
+        if not isinstance(self.index, VectorStoreIndex):
+            raise ValueError("The index does not contain a valid VectorStoreIndex")
 
         self.chat_engine = self.index.as_chat_engine(
             memory=memory,

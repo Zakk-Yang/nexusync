@@ -6,6 +6,7 @@ from llama_index.llms.openai import OpenAI
 from llama_index.core import Settings
 import os
 from dotenv import load_dotenv
+from nexusync.utils.logging_config import get_logger
 
 
 def set_language_model(
@@ -24,6 +25,7 @@ def set_language_model(
     Raises:
         ValueError: If both or neither model is specified, or if OpenAI API key is missing.
     """
+    logger = get_logger("nexusync.utils.embedding_models.set_language_model")
     load_dotenv()
 
     if (openai_model and ollama_model) or (not openai_model and not ollama_model):
@@ -36,7 +38,7 @@ def set_language_model(
         Settings.llm = OpenAI(
             model=openai_model, temperature=temperature, api_key=openai_api_key
         )
-        print(f"Using OpenAI LLM model: {openai_model}")
+        logger.info(f"Using OpenAI LLM model: {openai_model}")
     else:
         Settings.llm = Ollama(model=ollama_model, temperature=temperature)
-        print(f"Using Ollama LLM model: {ollama_model}")
+        logger.info(f"Using Ollama LLM model: {ollama_model}")

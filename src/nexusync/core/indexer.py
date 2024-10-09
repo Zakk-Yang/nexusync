@@ -12,7 +12,7 @@ from llama_index.core import (
 from llama_index.vector_stores.chroma import ChromaVectorStore
 import chromadb
 from nexusync.utils.logging_config import get_logger
-import shutil
+from llama_index.core import Settings
 
 
 class Indexer:
@@ -66,15 +66,17 @@ class Indexer:
         self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.index = None
-        self._initiate()
+        Settings.chunk_overlap = chunk_overlap
+        Settings.chunk_size = chunk_size
 
-    def _initiate(self):
+    def initialize_index(self):
         """
         Load an existing index from storage or create a new one if not found.
 
         Raises:
             ValueError: If no documents are found in the specified directories.
         """
+
         try:
             self.storage_context = StorageContext.from_defaults(
                 persist_dir=self.index_persist_dir
@@ -112,39 +114,7 @@ class Indexer:
         except Exception as e:
             self.logger.error(f"An unexpected error occurred during initiation: {e}")
             raise
-
-    def rebuild_index(self):
-        """
-        Rebuild the entire index by deleting the existing index and recreating it.
-
-        This method can be used when new documents are added or when the embedding model has been changed.
-        """
-        # Step 1: Delete the existing index directory
-        if os.path.exists(self.indexer.index_persist_dir):
-            self.logger.info(
-                f"Deleting existing index directory: {self.indexer.index_persist_dir}"
-            )
-            shutil.rmtree(self.indexer.index_persist_dir)
-        else:
-            self.logger.warning(
-                f"Index directory {self.indexer.index_persist_dir} does not exist. Skipping deletion."
-            )
-
-        # Step 2: Delete the Chroma database directory (if applicable)
-        if os.path.exists(self.indexer.chroma_db_dir):
-            self.logger.info(
-                f"Deleting existing Chroma DB directory: {self.indexer.chroma_db_dir}"
-            )
-            shutil.rmtree(self.indexer.chroma_db_dir)
-        else:
-            self.logger.warning(
-                f"Chroma DB directory {self.indexer.chroma_db_dir} does not exist. Skipping deletion."
-            )
-
-        # Step 3: Reinitialize the indexer and rebuild the index
-        self.logger.info("Rebuilding the index with new settings or documents...")
-        self._initialize_indexer()
-        self.logger.info("Index rebuilt successfully.")
+        return self.index
 
     def refresh(self):
         """
@@ -171,10 +141,6 @@ class Indexer:
 
             # Step 4: Verify and log the results
             updated_stats = self.get_index_stats()
-            # self.logger.info(
-            #     f"Index refresh completed. Current file count: {updated_stats['num_documents']}"
-            # )
-            # self.logger.info(f"Total files in input directories: {len(current_files)}")
 
             if updated_stats["num_documents"] != len(current_files):
                 self.logger.warning(

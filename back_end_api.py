@@ -1,11 +1,8 @@
 # back_end_api.py
 from flask import Flask, request, jsonify, Response, send_from_directory
 import json
-import os
-import shutil
 import logging
-from nexusync.models import set_embedding_model, set_language_model
-from nexusync import NexuSync
+from nexusync import NexuSync, rebuild_index
 
 app = Flask(__name__)
 
@@ -13,10 +10,18 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 # Configuration Parameters
+OPENAI_MODEL_YN = False
 EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5"
-LLM_MODEL = "llama3.2"
+LANGUAGE_MODEL = "llama3.2"
 TEMPERATURE = 0.4
 INPUT_DIRS = ["sample_docs/"]  # Can include multiple paths
+CHROMA_DB_DIR = "chroma_db"
+INDEX_PERSIST_DIR = "index_storage"
+CHROMA_COLLECTION_NAME = "my_collection"
+CHUNK_SIZE = 1024
+CHUNK_OVERLAP = 20
+RECURSIVE = True
+
 
 # Define the QA Prompt Template
 text_qa_template = (
@@ -30,16 +35,24 @@ text_qa_template = (
     "Answer: "
 )
 
-# Initialize Embedding and Language Models
-set_embedding_model(huggingface_model=EMBEDDING_MODEL)
-set_language_model(ollama_model=LLM_MODEL, temperature=TEMPERATURE)
+ns = NexuSync(
+    input_dirs=INPUT_DIRS,
+    openai_model_yn=False,
+    embedding_model=EMBEDDING_MODEL,
+    language_model=LANGUAGE_MODEL,
+    temperature=TEMPERATURE,
+    chroma_db_dir=CHROMA_DB_DIR,
+    index_persist_dir=INDEX_PERSIST_DIR,
+    chroma_collection_name=CHROMA_COLLECTION_NAME,
+    chunk_overlap=CHUNK_OVERLAP,
+    chunk_size=CHUNK_SIZE,
+    recursive=RECURSIVE,
+)
 
-# Initialize NexuSync
-ns = NexuSync(input_dirs=INPUT_DIRS)
 
 # Initialize the Chat Engine Once
-ns.chat_engine.initialize_chat_engine(
-    text_qa_template, chat_mode="context", similarity_top_k=2
+ns.initialize_stream_chat(
+    text_qa_template=text_qa_template, chat_mode="context", similarity_top_k=3
 )
 
 
@@ -107,62 +120,56 @@ def chat():
 
 
 @app.route("/rebuild_index", methods=["POST"])
-def rebuild_index():
-    """
-    Endpoint to rebuild the entire index. This is useful when new documents are added
-    or embedding configurations are changed.
+def rebuild_index_route():
+    global ns, EMBEDDING_MODEL, LANGUAGE_MODEL, TEMPERATURE, INPUT_DIRS
 
-    Expected JSON Payload (optional):
-    {
-        "input_dirs": ["path/to/docs1", "path/to/docs2"],
-        "chunk_size": 512,
-        "chunk_overlap": 50
-    }
-    """
-    global ns  # Ensure this is at the top of the function
-
-    data = request.get_json() or {}
-
-    input_dirs = data.get("input_dirs", INPUT_DIRS)
-    chunk_size = data.get("chunk_size", 1024)
-    chunk_overlap = data.get("chunk_overlap", 20)
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
 
     try:
-        # Delete existing index directory
-        if os.path.exists(ns.indexer.index_persist_dir):
-            shutil.rmtree(ns.indexer.index_persist_dir)
-            app.logger.info(
-                f"Deleted existing index directory: {ns.indexer.index_persist_dir}"
-            )
-        else:
-            app.logger.warning(
-                f"Index directory {ns.indexer.index_persist_dir} does not exist. Skipping deletion."
-            )
+        # Update global variables
+        EMBEDDING_MODEL = data.get("embedding_model", EMBEDDING_MODEL)
+        LANGUAGE_MODEL = data.get("llm_model", LANGUAGE_MODEL)
+        TEMPERATURE = data.get("temperature", TEMPERATURE)
+        INPUT_DIRS = data.get("input_dirs", INPUT_DIRS)
 
-        # Delete Chroma DB directory if it exists
-        if os.path.exists(ns.indexer.chroma_db_dir):
-            shutil.rmtree(ns.indexer.chroma_db_dir)
-            app.logger.info(
-                f"Deleted existing Chroma DB directory: {ns.indexer.chroma_db_dir}"
-            )
-        else:
-            app.logger.warning(
-                f"Chroma DB directory {ns.indexer.chroma_db_dir} does not exist. Skipping deletion."
-            )
-
-        # Reinitialize NexuSync with new parameters
-        ns_rebuilt = NexuSync(input_dirs=input_dirs)
-
-        # Reinitialize the chat engine with the same template
-        ns_rebuilt.chat_engine.initialize_chat_engine(
-            text_qa_template, chat_mode="context"
+        # Rebuild index
+        rebuild_index(
+            input_dirs=INPUT_DIRS,
+            openai_model_yn=OPENAI_MODEL_YN,
+            embedding_model=EMBEDDING_MODEL,
+            language_model=LANGUAGE_MODEL,
+            temperature=TEMPERATURE,
+            chroma_db_dir=CHROMA_DB_DIR,
+            index_persist_dir=INDEX_PERSIST_DIR,
+            chroma_collection_name=CHROMA_COLLECTION_NAME,
+            chunk_overlap=CHUNK_OVERLAP,
+            chunk_size=CHUNK_SIZE,
+            recursive=RECURSIVE,
         )
 
-        # Update the global `ns` instance with the rebuilt instance
-        ns = ns_rebuilt
+        # Reinitialize NexuSync
+        ns = NexuSync(
+            input_dirs=INPUT_DIRS,
+            openai_model_yn=OPENAI_MODEL_YN,
+            embedding_model=EMBEDDING_MODEL,
+            language_model=LANGUAGE_MODEL,
+            temperature=TEMPERATURE,
+            chroma_db_dir=CHROMA_DB_DIR,
+            index_persist_dir=INDEX_PERSIST_DIR,
+            chroma_collection_name=CHROMA_COLLECTION_NAME,
+            chunk_overlap=CHUNK_OVERLAP,
+            chunk_size=CHUNK_SIZE,
+            recursive=RECURSIVE,
+        )
 
-        return jsonify({"status": "Index rebuilt successfully."}), 200
+        # Reinitialize the chat engine
+        ns.initialize_stream_chat(
+            text_qa_template=text_qa_template, chat_mode="context", similarity_top_k=3
+        )
 
+        return jsonify({"status": "Index rebuilt successfully"}), 200
     except Exception as e:
         app.logger.error(f"Error rebuilding index: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500

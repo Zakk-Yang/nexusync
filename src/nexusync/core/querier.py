@@ -1,5 +1,5 @@
 # src/core/querier.py
-import logging
+
 from typing import List, Optional, Dict, Any
 from llama_index.core import (
     VectorStoreIndex,
