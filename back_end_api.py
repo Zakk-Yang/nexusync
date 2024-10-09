@@ -185,6 +185,16 @@ def reset_chat():
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 
+@app.route("/refresh_index", methods=["POST"])
+def refresh_index():
+    try:
+        ns.indexer.refresh()
+        return jsonify({"status": "Index refreshed successfully."}), 200
+    except Exception as e:
+        logging.error(f"Error refreshing index: {e}", exc_info=True)
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
+
 if __name__ == "__main__":
     # Run the Flask app
     app.run(host="0.0.0.0", port=5000, debug=True)
