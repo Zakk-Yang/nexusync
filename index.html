@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
     <title>NexuSync Chat Interface</title>
     <style>
         * {
@@ -160,6 +161,32 @@
             margin-top: 0.5rem;
             padding-top: 0.5rem;
             border-top: 1px solid #ccc;
+        }
+        /* Add styles for Markdown content */
+        .markdown-content {
+            line-height: 1.6;
+        }
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 {
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+        }
+        .markdown-content p {
+            margin-bottom: 1em;
+        }
+        .markdown-content ul, .markdown-content ol {
+            margin-bottom: 1em;
+            padding-left: 2em;
+        }
+        .markdown-content code {
+            background-color: #f0f0f0;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+        .markdown-content pre {
+            background-color: #f0f0f0;
+            padding: 1em;
+            border-radius: 5px;
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -404,6 +431,30 @@
                     alert(`Error resetting chat: ${error.message}`);
                 }
             }
+        }
+        function formatResponse(responseText) {
+            const sourcesMarker = '\n\n**Sources:**\n';
+            const [response, sources] = responseText.split(sourcesMarker);
+            
+            // Parse the response text as Markdown
+            let formattedResponse = marked(response.trim());
+            
+            // Wrap the parsed Markdown in a div for styling
+            formattedResponse = `<div class="markdown-content">${formattedResponse}</div>`;
+            
+            if (sources) {
+                const sourcesList = sources.trim().split('\n').map(source => {
+                    return escapeHTML(source);
+                }).join('<br>');
+                formattedResponse += `<div class="sources"><strong>Sources:</strong><br>${sourcesList}</div>`;
+            }
+            return formattedResponse;
+        }
+
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
     </script>
 </body>

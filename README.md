@@ -1,6 +1,6 @@
 # NexuSync
 
-NexuSync is a powerful document indexing and querying tool built on top of LlamaIndex. It allows you to efficiently manage, search, and interact with large collections of documents using advanced natural language processing techniques.
+NexuSync is a lightweight and powerful library of Retrieval-Augmented Generation (RAG) systems built on top of LlamaIndex. It provides developers with a simple, user-friendly interface to configure and deploy RAG systems efficiently.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/nexusync_logo.png" alt="NexuSync Logo" width="200"/>
@@ -8,12 +8,14 @@ NexuSync is a powerful document indexing and querying tool built on top of Llama
 
 ## Features
 
-- **Smart Document Indexing**: Automatically index documents from specified directories, keeping your knowledge base up-to-date.
+- **Lightweight Design**: NexuSync is built with simplicity in mind, making it easy for developers to integrate and configure RAG systems without unnecessary complexity.
+- **User-Friendly Interface**: With intuitive APIs and clear documentation, setting up your RAG system has never been easier.
+- **Flexible Document Indexing**: Automatically index documents from specified directories, keeping your knowledge base up-to-date.
 - **Efficient Querying**: Use natural language to query your document collection and get relevant answers quickly.
-- **Upsert Capability**: Easily update/insert new documents or remove documents from the index without rebuilding from scratch. Use `refresh_index`.
-- **Chat Interface**: Engage in conversational interactions with your document collection, making information retrieval more intuitive.
-- **Flexible Embedding Options**: Choose between OpenAI and HuggingFace embedding models to suit your needs and constraints.
-- **Streaming Responses**: Get real-time, token-by-token responses for a more interactive experience.
+- **Conversational Interface**: Engage in chat-like interactions with your document collection for more intuitive information retrieval.
+- **Customizable Embedding Options**: Choose between various embedding models to suit your needs and constraints.
+- **Incremental Updates**: Easily update or insert new documents into the index without rebuilding from scratch.
+- **Automatic Deletion Handling**: Documents removed from the filesystem are automatically removed from the index.
 
 ## Installation
 
@@ -25,35 +27,39 @@ pip install nexusync
 
 ## Quick Start
 
-Here's a simple example to get you started with NexuSync:
+Try yourself:
 
 ```python
 from nexusync import NexuSync
-from nexusync.models import set_embedding_model, set_language_model
 
-EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5"
-LLM_MODEL = 'llama3.2'
-TEMPERATURE = 0.4
-INPUT_DIRS = ["../sample_docs"] # can put multiple folder paths
+# Customize your parameters
+OPENAI_MODEL_YN = False # if False, you will use ollama model
+EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5" # suggested embedding model
+LANGUAGE_MODEL = 'llama3.2' # you need to download ollama model first, please check https://ollama.com/download
+TEMPERATURE = 0.4 # range from 0 to 1, higher means higher creativitiy level
+CHROMA_DB_DIR = 'chroma_db' # Your path to the chroma db
+INDEX_PERSIST_DIR = 'index_storage' # Your path to the index storage
+CHROMA_COLLECTION_NAME = 'my_collection' 
+INPUT_DIRS = ["../sample_docs"] # can specify multiple document paths
+CHUNK_SIZE = 1024 # Size of text chunks for creating embeddings
+CHUNK_OVERLAP = 20 # Overlap between text chunks to maintain context
+RECURSIVE = True # Recursive or not under one folder
 
-# Set up open-source models from ollama
-set_embedding_model(huggingface_model= EMBEDDING_MODEL) 
-set_language_model(ollama_model = LLM_MODEL, temperature=TEMPERATURE)\
+# Initialize vector DB
+ns = NexuSync(input_dirs=INPUT_DIRS, 
+              openai_model_yn=False, 
+              embedding_model=EMBEDDING_MODEL, 
+              language_model=LANGUAGE_MODEL, 
+              temperature=TEMPERATURE, 
+              chroma_db_dir = CHROMA_DB_DIR,
+              index_persist_dir = INDEX_PERSIST_DIR,
+              chroma_collection_name=CHROMA_COLLECTION_NAME,
+              chunk_overlap=CHUNK_OVERLAP,
+              chunk_size=CHUNK_SIZE,
+              recursive=RECURSIVE
+              )
 
-# Or, set up models for openai models (create .env to include your OPENAI_API_KEY)
-# set_embedding_model(openai_model="text-embedding-ada-002")
-# set_language_model(openai_model="gtp-4o-mini", temperature=0.4)
-```
-Next, we initiate the `NexuSync` class and initiate a simple query.
-
-```python
-# Initialize NexuSync
-ns = NexuSync(input_dirs=INPUT_DIRS)
-
-# Refresh with one line of code (upinsert or delete incrementally)
-ns.refresh_index()
-
-# Prepare your instruction prompt
+# Prompt Engineering
 text_qa_template = (
     "Context information is below.\n"
     "---------------------\n"
@@ -65,33 +71,91 @@ text_qa_template = (
     "Answer: "
 )
 
+# Initalize the chat engine
+ns.initialize_stream_chat(
+    text_qa_template=text_qa_template,
+    chat_mode="context",
+    similarity_top_k=3
+)
 
-# Perform a query
-query = "News about Nvidia?"
-response = ns.query(text_qa_template = text_qa_template, query = query )
+# Start the stream chat:
+query = "how to install NexuSync?"
 
-print(f"Query: {query}")
-print(f"Response: {response['response']}")
-print(f"Response: {response['metadata']}")
-```
-
-Chat in a word-by-word stream chat style: 
-```python
-# Initiate the chat engine once
-ns.chat_engine.initialize_chat_engine(text_qa_template, chat_mode="context")
-
-# Print each token as it's generated
-response_generator = ns.chat_engine.chat_stream(query)
-for item in response_generator:
+for item in ns.start_chat_stream(query):
     if isinstance(item, str):
+        # This is a token, print or process as needed
         print(item, end='', flush=True)
     else:
-        # This is the final yield with the full response and metadata
-        full_response = item
+        # This is the final response with metadata
+        print("\n\nFull response:", item['response'])
+        print("Metadata:", item['metadata'])
         break
 
-print("\n\nFull response:", full_response['response'])
-print("Metadata:", full_response['metadata'])
+# Get chat history
+chat_history = ns.chat_engine.get_chat_history()
+print("Chat History:")
+for entry in chat_history:
+    print(f"Human: {entry['query']}")
+    print(f"AI: {entry['response']}\n")
+
+# If you have files modified, inserted or deleted, you don't need to rebuild all the index
+ns.refresh_index()
+
+# Rebuild your index if you changed the embedding/language model
+from nexusync import rebuild_index
+
+OPENAI_MODEL_YN = True # if False, you will use ollama model
+EMBEDDING_MODEL = "text-embedding-3-large" # suggested embedding model
+LANGUAGE_MODEL = 'gpt-4o-mini' # you need to download ollama model first, please check https://ollama.com/download
+TEMPERATURE = 0.4 # range from 0 to 1, higher means higher creativitiy level
+CHROMA_DB_DIR = 'chroma_db'
+INDEX_PERSIST_DIR = 'index_storage'
+CHROMA_COLLECTION_NAME = 'my_collection'
+INPUT_DIRS = ["../sample_docs"] # can specify multiple document paths
+CHUNK_SIZE = 1024
+CHUNK_OVERLAP = 20
+RECURSIVE = True
+
+rebuild_index(input_dirs=INPUT_DIRS, 
+              openai_model_yn=OPENAI_MODEL_YN, 
+              embedding_model=EMBEDDING_MODEL, 
+              language_model=LANGUAGE_MODEL, 
+              temperature=TEMPERATURE, 
+              chroma_db_dir = CHROMA_DB_DIR,
+              index_persist_dir = INDEX_PERSIST_DIR,
+              chroma_collection_name=CHROMA_COLLECTION_NAME,
+              chunk_overlap=CHUNK_OVERLAP,
+              chunk_size=CHUNK_SIZE,
+              recursive=RECURSIVE
+              )
+
+# Reinitialize after rebuilding
+ns = NexuSync(input_dirs=INPUT_DIRS, 
+              openai_model_yn=False, 
+              embedding_model=EMBEDDING_MODEL, 
+              language_model=LANGUAGE_MODEL, 
+              temperature=TEMPERATURE, 
+              chroma_db_dir = CHROMA_DB_DIR,
+              index_persist_dir = INDEX_PERSIST_DIR,
+              chroma_collection_name=CHROMA_COLLECTION_NAME,
+              chunk_overlap=CHUNK_OVERLAP,
+              chunk_size=CHUNK_SIZE,
+              recursive=RECURSIVE
+              )
 ```
+
+## Use Interface
+1. git clone or download this project: 
+```bash
+git clone https://github.com/Zakk-Yang/nexusync.git
+```
+2. Under the project folder, open the terminal and run
+```
+python back-end-api.py
+```
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/chat_snapshot.png" alt="Screen Shot" width="600"/>
+</p>
+
 
 For more detailed usage examples, check out the demo notebooks.
