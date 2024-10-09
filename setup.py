@@ -9,7 +9,7 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     name="nexusync",
-    version="0.2.0",
+    version="0.2.2",
     author="Zakk Yang",
     author_email="zakkyang@protonmail.com",
     description="A powerful document indexing and querying tool built on top of LlamaIndex",
@@ -36,6 +36,7 @@ setup(
         "openpyxl",
         "python-dotenv",
         "spacy",
+        "flask",
     ],
     include_package_data=True,  # Ensures files specified in MANIFEST.in are included
 )

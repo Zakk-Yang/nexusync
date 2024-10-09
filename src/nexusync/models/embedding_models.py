@@ -22,9 +22,7 @@ def set_embedding_model(
     Raises:
         ValueError: If both or neither embedding model is specified.
     """
-    logger = get_logger(
-        "nexusync.utils.embedding_models.set_embedding_model"
-    )  # Use full logger name
+    logger = get_logger("nexusync.utils.embedding_models.set_embedding_model")
     load_dotenv()
 
     if (openai_model and huggingface_model) or (

@@ -24,16 +24,23 @@ RECURSIVE = True
 
 
 # Define the QA Prompt Template
-text_qa_template = (
-    "Context information is below.\n"
-    "---------------------\n"
-    "{context_str}\n"
-    "---------------------\n"
-    "Given the context information above, I want you to think step by step to answer the query in a crisp manner. "
-    "In case you don't know the answer, say 'I don't know!'.\n"
-    "Query: {query_str}\n"
-    "Answer: "
-)
+text_qa_template = """
+Context Information:
+--------------------
+{context_str}
+--------------------
+
+Query: {query_str}
+
+Instructions:
+1. Carefully read the context information and the query.
+2. Think through the problem step by step.
+3. Provide a concise and accurate answer based on the given context.
+4. If the answer cannot be determined from the context, state "Based on the given information, I cannot provide a definitive answer."
+5. If you need to make any assumptions, clearly state them.
+6. If relevant, provide a brief explanation of your reasoning.
+
+Answer: """
 
 ns = NexuSync(
     input_dirs=INPUT_DIRS,

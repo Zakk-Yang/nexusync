@@ -1,6 +1,6 @@
 # NexuSync
 
-NexuSync is a lightweight and powerful library of Retrieval-Augmented Generation (RAG) systems built on top of LlamaIndex. It provides developers with a simple, user-friendly interface to configure and deploy RAG systems efficiently.
+NexuSync is a lightweight and powerful library of Retrieval-Augmented Generation (RAG) systems built on top of LlamaIndex. It provides developers with a simple, user-friendly interface to configure and deploy RAG systems efficiently. You can choose to use local LLM model for off-line running with privacy.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/nexusync_logo.png" alt="NexuSync Logo" width="200"/>
@@ -24,6 +24,10 @@ To install NexuSync, run the following command:
 ```bash
 pip install nexusync
 ```
+
+## Prerequisites
+- Python 3.7 or higher
+- Install Ollama: https://ollama.com/download or OpenAI API
 
 ## Quick Start
 
@@ -151,7 +155,7 @@ git clone https://github.com/Zakk-Yang/nexusync.git
 ```
 2. Under the project folder, open the terminal and run
 ```
-python back-end-api.py
+python back_end_api.py
 ```
 <p align="center">
   <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/chat_snapshot.png" alt="Screen Shot" width="600"/>

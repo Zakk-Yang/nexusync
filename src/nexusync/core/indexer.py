@@ -194,7 +194,7 @@ class Indexer:
                 deleted_docs.append(doc_id)
 
         if deleted_docs:
-            self.logger.info(f"Deleting {len(deleted_docs)} files from the index.")
+            self.logger.info(f"Deleting {len(deleted_docs)} chunks from the index.")
             for doc_id in deleted_docs:
                 self.index.delete_ref_doc(doc_id, delete_from_docstore=True)
             self.logger.info("Deletion process completed.")
