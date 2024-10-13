@@ -1,0 +1,1154 @@
+[
+    {
+        "demographics": {
+            "patient_id": "P000000",
+            "first_name": "PatientP000000",
+            "last_name": "Doe",
+            "date_of_birth": "1966-11-01 01:16:41",
+            "gender": "Male",
+            "contact_information": {
+                "address": "139 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 671531",
+                "email": "patientP000000@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000000",
+            "relationship": "Spouse",
+            "phone": "+44 7911 376933"
+        },
+        "medical_history": [
+            {
+                "condition": "Leukemia",
+                "diagnosis_date": "2018-07-08 06:55:27",
+                "stage": "IV",
+                "treatment": [
+                    "Chemotherapy"
+                ],
+                "notes": "Stage IV Leukemia diagnosed. Treatment plan includes Chemotherapy."
+            }
+        ],
+        "medications": [
+            {
+                "medication_id": "M6464",
+                "name": "Imatinib",
+                "dosage": "96 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2024-03-29 12:36:55",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "NHS Oncology Centre"
+            },
+            {
+                "medication_id": "M8879",
+                "name": "Nilotinib",
+                "dosage": "178 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2023-09-20 17:48:39",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "Green Valley Cancer Institute"
+            },
+            {
+                "medication_id": "M6362",
+                "name": "Dasatinib",
+                "dosage": "123 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2024-10-25 05:15:15",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "Riverbend Oncology Clinic"
+            }
+        ],
+        "immunizations": [
+            {
+                "immunization_id": "I4299",
+                "vaccine": "Influenza",
+                "date_administered": "2024-09-08 11:00:53",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Downtown Cancer Facility"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L1164",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2024-10-22 08:11:43",
+                "results": {
+                    "Hemoglobin": "12.7 g/dL",
+                    "White Blood Cells": "3.0 x10^3/\u00b5L",
+                    "Platelets": "330 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP9886",
+                "date_time": "2024-12-23 18:14:39",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Riverside Oncology Clinic",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V4963",
+                "date": "2024-12-12 14:12:13",
+                "blood_pressure": "124/77 mmHg",
+                "heart_rate": "87 bpm",
+                "respiratory_rate": "16 breaths/min",
+                "temperature": "97.9\u00b0F",
+                "oxygen_saturation": "98%",
+                "weight": "70 kg",
+                "height": "177 cm",
+                "bmi": "27.8"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM3488",
+                "date": "2024-09-20 17:12:39",
+                "type": "PET-CT",
+                "location_name": "Riverside Oncology Clinic",
+                "results": "Follow-up PET-CT shows complete response.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000001",
+            "first_name": "PatientP000001",
+            "last_name": "Doe",
+            "date_of_birth": "1977-06-05 18:13:55",
+            "gender": "Male",
+            "contact_information": {
+                "address": "229 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 468034",
+                "email": "patientP000001@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000001",
+            "relationship": "Spouse",
+            "phone": "+44 7911 552032"
+        },
+        "medical_history": [
+            {
+                "condition": "Prostate Cancer",
+                "diagnosis_date": "2023-11-11 06:27:54",
+                "stage": "II",
+                "treatment": [
+                    "Radiation therapy",
+                    "Prostatectomy"
+                ],
+                "notes": "Stage II Prostate Cancer diagnosed. Treatment plan includes Radiation therapy, Prostatectomy."
+            }
+        ],
+        "medications": [],
+        "immunizations": [
+            {
+                "immunization_id": "I4609",
+                "vaccine": "Influenza",
+                "date_administered": "2023-10-03 01:24:17",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Green Valley Cancer Institute"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L8146",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2024-12-11 21:37:09",
+                "results": {
+                    "Hemoglobin": "13.8 g/dL",
+                    "White Blood Cells": "8.9 x10^3/\u00b5L",
+                    "Platelets": "304 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            },
+            {
+                "lab_id": "L2406",
+                "test_name": "Tumor Marker Test",
+                "date": "2023-03-02 17:46:34",
+                "results": {
+                    "CA-125": null,
+                    "PSA": "7.8 ng/mL",
+                    "CA 15-3": null
+                },
+                "normal_ranges": {
+                    "CA-125": "<35 U/mL",
+                    "PSA": "<4 ng/mL",
+                    "CA 15-3": "<30 U/mL"
+                },
+                "interpretation": "Elevated levels may indicate disease activity or treatment response."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP7530",
+                "date_time": "2024-12-09 02:42:18",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Pinewood Oncology",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            },
+            {
+                "appointment_id": "AP8976",
+                "date_time": "2024-06-02 17:54:13",
+                "type": "Radiation Therapy Session",
+                "with": "Dr. Sarah Radiologist",
+                "location_name": "Green Valley Cancer Institute",
+                "status": "Scheduled",
+                "notes": "Continued radiation treatment as per plan."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V4781",
+                "date": "2024-07-18 07:38:18",
+                "blood_pressure": "120/64 mmHg",
+                "heart_rate": "99 bpm",
+                "respiratory_rate": "16 breaths/min",
+                "temperature": "98.1\u00b0F",
+                "oxygen_saturation": "96%",
+                "weight": "72 kg",
+                "height": "176 cm",
+                "bmi": "19.4"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM1047",
+                "date": "2024-03-15 01:43:13",
+                "type": "Prostate MRI",
+                "location_name": "City Cancer Institute",
+                "results": "Follow-up Prostate MRI shows stable disease.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000002",
+            "first_name": "PatientP000002",
+            "last_name": "Doe",
+            "date_of_birth": "1977-05-17 17:56:51",
+            "gender": "Male",
+            "contact_information": {
+                "address": "485 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 975759",
+                "email": "patientP000002@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000002",
+            "relationship": "Spouse",
+            "phone": "+44 7911 645934"
+        },
+        "medical_history": [
+            {
+                "condition": "Prostate Cancer",
+                "diagnosis_date": "2019-04-16 04:35:16",
+                "stage": "I",
+                "treatment": [
+                    "Radiation therapy",
+                    "Hormone therapy"
+                ],
+                "notes": "Stage I Prostate Cancer diagnosed. Treatment plan includes Radiation therapy, Hormone therapy."
+            }
+        ],
+        "medications": [
+            {
+                "medication_id": "M6283",
+                "name": "Letrozole",
+                "dosage": "20 mg",
+                "frequency": "Once daily",
+                "start_date": "2024-07-06 16:22:22",
+                "end_date": null,
+                "prescriber": "Dr. Jane Endocrinologist",
+                "location_name": "Riverside Oncology Clinic"
+            }
+        ],
+        "immunizations": [
+            {
+                "immunization_id": "I3475",
+                "vaccine": "Influenza",
+                "date_administered": "2024-01-27 11:18:27",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Riverbend Oncology Clinic"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L5832",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2023-10-13 18:29:53",
+                "results": {
+                    "Hemoglobin": "10.6 g/dL",
+                    "White Blood Cells": "5.1 x10^3/\u00b5L",
+                    "Platelets": "172 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            },
+            {
+                "lab_id": "L9689",
+                "test_name": "Tumor Marker Test",
+                "date": "2023-11-10 04:03:05",
+                "results": {
+                    "CA-125": null,
+                    "PSA": "3.4 ng/mL",
+                    "CA 15-3": null
+                },
+                "normal_ranges": {
+                    "CA-125": "<35 U/mL",
+                    "PSA": "<4 ng/mL",
+                    "CA 15-3": "<30 U/mL"
+                },
+                "interpretation": "Elevated levels may indicate disease activity or treatment response."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP6208",
+                "date_time": "2024-08-08 21:34:49",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Hillside Cancer Care",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            },
+            {
+                "appointment_id": "AP8361",
+                "date_time": "2024-12-15 21:21:21",
+                "type": "Radiation Therapy Session",
+                "with": "Dr. Sarah Radiologist",
+                "location_name": "Downtown Cancer Facility",
+                "status": "Scheduled",
+                "notes": "Continued radiation treatment as per plan."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V4595",
+                "date": "2024-09-26 11:33:59",
+                "blood_pressure": "128/62 mmHg",
+                "heart_rate": "69 bpm",
+                "respiratory_rate": "19 breaths/min",
+                "temperature": "98.8\u00b0F",
+                "oxygen_saturation": "98%",
+                "weight": "74 kg",
+                "height": "183 cm",
+                "bmi": "23.7"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM9534",
+                "date": "2024-05-09 08:42:59",
+                "type": "Prostate MRI",
+                "location_name": "Riverbend Oncology Clinic",
+                "results": "Follow-up Prostate MRI shows complete response.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000003",
+            "first_name": "PatientP000003",
+            "last_name": "Doe",
+            "date_of_birth": "1955-09-21 10:55:36",
+            "gender": "Male",
+            "contact_information": {
+                "address": "264 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 216070",
+                "email": "patientP000003@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000003",
+            "relationship": "Spouse",
+            "phone": "+44 7911 729480"
+        },
+        "medical_history": [
+            {
+                "condition": "Melanoma",
+                "diagnosis_date": "2012-09-22 07:19:34",
+                "stage": "III",
+                "treatment": [
+                    "Wide excision",
+                    "Immunotherapy",
+                    "Targeted therapy"
+                ],
+                "notes": "Stage III Melanoma diagnosed. Treatment plan includes Wide excision, Immunotherapy, Targeted therapy."
+            }
+        ],
+        "medications": [],
+        "immunizations": [
+            {
+                "immunization_id": "I7312",
+                "vaccine": "Influenza",
+                "date_administered": "2024-10-17 12:49:10",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "City Cancer Institute"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L8673",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2024-06-22 11:08:49",
+                "results": {
+                    "Hemoglobin": "12.1 g/dL",
+                    "White Blood Cells": "4.7 x10^3/\u00b5L",
+                    "Platelets": "356 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP5552",
+                "date_time": "2024-03-18 16:19:45",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "NHS Oncology Centre",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V1842",
+                "date": "2024-08-28 12:40:10",
+                "blood_pressure": "134/90 mmHg",
+                "heart_rate": "61 bpm",
+                "respiratory_rate": "20 breaths/min",
+                "temperature": "98.2\u00b0F",
+                "oxygen_saturation": "99%",
+                "weight": "72 kg",
+                "height": "179 cm",
+                "bmi": "26.7"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM6696",
+                "date": "2023-05-17 22:21:53",
+                "type": "Skin and Lymph Node Ultrasound",
+                "location_name": "Pinewood Oncology",
+                "results": "Follow-up Skin and Lymph Node Ultrasound shows stable disease.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000004",
+            "first_name": "PatientP000004",
+            "last_name": "Doe",
+            "date_of_birth": "1979-05-17 14:31:47",
+            "gender": "Male",
+            "contact_information": {
+                "address": "956 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 806455",
+                "email": "patientP000004@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000004",
+            "relationship": "Spouse",
+            "phone": "+44 7911 414021"
+        },
+        "medical_history": [
+            {
+                "condition": "Colorectal Cancer",
+                "diagnosis_date": "2012-04-01 12:07:10",
+                "stage": "III",
+                "treatment": [
+                    "Colectomy",
+                    "Chemotherapy",
+                    "Radiation therapy"
+                ],
+                "notes": "Stage III Colorectal Cancer diagnosed. Treatment plan includes Colectomy, Chemotherapy, Radiation therapy."
+            }
+        ],
+        "medications": [
+            {
+                "medication_id": "M6938",
+                "name": "Oxaliplatin",
+                "dosage": "170 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2023-01-29 01:08:50",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "Riverbend Oncology Clinic"
+            }
+        ],
+        "immunizations": [
+            {
+                "immunization_id": "I1234",
+                "vaccine": "Influenza",
+                "date_administered": "2023-12-07 02:42:39",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Green Valley Cancer Institute"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L8342",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2023-02-19 17:47:20",
+                "results": {
+                    "Hemoglobin": "11.7 g/dL",
+                    "White Blood Cells": "5.3 x10^3/\u00b5L",
+                    "Platelets": "370 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP6696",
+                "date_time": "2024-02-02 12:48:41",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Riverside Oncology Clinic",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            },
+            {
+                "appointment_id": "AP5617",
+                "date_time": "2024-10-27 21:38:55",
+                "type": "Radiation Therapy Session",
+                "with": "Dr. Sarah Radiologist",
+                "location_name": "Maple Grove Oncology Center",
+                "status": "Scheduled",
+                "notes": "Continued radiation treatment as per plan."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V3543",
+                "date": "2024-01-21 23:23:40",
+                "blood_pressure": "140/88 mmHg",
+                "heart_rate": "77 bpm",
+                "respiratory_rate": "20 breaths/min",
+                "temperature": "97.3\u00b0F",
+                "oxygen_saturation": "97%",
+                "weight": "58 kg",
+                "height": "159 cm",
+                "bmi": "20.8"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM6696",
+                "date": "2024-02-19 17:30:04",
+                "type": "Abdominal CT",
+                "location_name": "Green Valley Cancer Institute",
+                "results": "Follow-up Abdominal CT shows partial response.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000005",
+            "first_name": "PatientP000005",
+            "last_name": "Doe",
+            "date_of_birth": "1967-02-17 02:56:48",
+            "gender": "Male",
+            "contact_information": {
+                "address": "641 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 279349",
+                "email": "patientP000005@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000005",
+            "relationship": "Spouse",
+            "phone": "+44 7911 519193"
+        },
+        "medical_history": [
+            {
+                "condition": "Prostate Cancer",
+                "diagnosis_date": "2011-10-24 02:34:53",
+                "stage": "III",
+                "treatment": [
+                    "Prostatectomy",
+                    "Radiation therapy"
+                ],
+                "notes": "Stage III Prostate Cancer diagnosed. Treatment plan includes Prostatectomy, Radiation therapy."
+            }
+        ],
+        "medications": [],
+        "immunizations": [
+            {
+                "immunization_id": "I2525",
+                "vaccine": "Influenza",
+                "date_administered": "2024-04-22 11:16:59",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Springfield Cancer Center"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L9784",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2024-09-21 23:04:29",
+                "results": {
+                    "Hemoglobin": "9.5 g/dL",
+                    "White Blood Cells": "9.8 x10^3/\u00b5L",
+                    "Platelets": "176 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            },
+            {
+                "lab_id": "L3153",
+                "test_name": "Tumor Marker Test",
+                "date": "2023-08-25 20:20:57",
+                "results": {
+                    "CA-125": null,
+                    "PSA": "8.8 ng/mL",
+                    "CA 15-3": null
+                },
+                "normal_ranges": {
+                    "CA-125": "<35 U/mL",
+                    "PSA": "<4 ng/mL",
+                    "CA 15-3": "<30 U/mL"
+                },
+                "interpretation": "Elevated levels may indicate disease activity or treatment response."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP3654",
+                "date_time": "2024-02-09 17:39:14",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Riverbend Oncology Clinic",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            },
+            {
+                "appointment_id": "AP1634",
+                "date_time": "2024-08-19 21:15:07",
+                "type": "Radiation Therapy Session",
+                "with": "Dr. Sarah Radiologist",
+                "location_name": "Green Valley Cancer Institute",
+                "status": "Scheduled",
+                "notes": "Continued radiation treatment as per plan."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V7186",
+                "date": "2024-03-18 11:50:15",
+                "blood_pressure": "125/86 mmHg",
+                "heart_rate": "80 bpm",
+                "respiratory_rate": "18 breaths/min",
+                "temperature": "98.0\u00b0F",
+                "oxygen_saturation": "99%",
+                "weight": "80 kg",
+                "height": "176 cm",
+                "bmi": "22.6"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM9572",
+                "date": "2024-01-27 20:01:56",
+                "type": "Prostate MRI",
+                "location_name": "Green Valley Cancer Institute",
+                "results": "Follow-up Prostate MRI shows complete response.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000006",
+            "first_name": "PatientP000006",
+            "last_name": "Doe",
+            "date_of_birth": "1969-12-19 11:45:49",
+            "gender": "Male",
+            "contact_information": {
+                "address": "107 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 884888",
+                "email": "patientP000006@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000006",
+            "relationship": "Spouse",
+            "phone": "+44 7911 738108"
+        },
+        "medical_history": [
+            {
+                "condition": "Thyroid Cancer",
+                "diagnosis_date": "2019-01-14 17:15:54",
+                "stage": "III",
+                "treatment": [
+                    "Radioactive iodine therapy",
+                    "Targeted therapy"
+                ],
+                "notes": "Stage III Thyroid Cancer diagnosed. Treatment plan includes Radioactive iodine therapy, Targeted therapy."
+            }
+        ],
+        "medications": [],
+        "immunizations": [
+            {
+                "immunization_id": "I4453",
+                "vaccine": "Influenza",
+                "date_administered": "2024-08-05 13:22:33",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "NHS Oncology Centre"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L3089",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2024-10-29 21:08:00",
+                "results": {
+                    "Hemoglobin": "10.5 g/dL",
+                    "White Blood Cells": "3.9 x10^3/\u00b5L",
+                    "Platelets": "215 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP4886",
+                "date_time": "2024-02-08 08:56:07",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Riverbend Oncology Clinic",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V4214",
+                "date": "2024-10-14 21:14:03",
+                "blood_pressure": "119/61 mmHg",
+                "heart_rate": "61 bpm",
+                "respiratory_rate": "17 breaths/min",
+                "temperature": "97.3\u00b0F",
+                "oxygen_saturation": "96%",
+                "weight": "64 kg",
+                "height": "159 cm",
+                "bmi": "21.4"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM9087",
+                "date": "2024-04-09 20:13:50",
+                "type": "Thyroid Ultrasound",
+                "location_name": "Downtown Cancer Facility",
+                "results": "Follow-up Thyroid Ultrasound shows partial response.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000007",
+            "first_name": "PatientP000007",
+            "last_name": "Doe",
+            "date_of_birth": "1979-08-04 23:12:34",
+            "gender": "Male",
+            "contact_information": {
+                "address": "169 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 795798",
+                "email": "patientP000007@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000007",
+            "relationship": "Spouse",
+            "phone": "+44 7911 236769"
+        },
+        "medical_history": [
+            {
+                "condition": "Prostate Cancer",
+                "diagnosis_date": "2023-12-19 07:43:10",
+                "stage": "IV",
+                "treatment": [
+                    "Hormone therapy"
+                ],
+                "notes": "Stage IV Prostate Cancer diagnosed. Treatment plan includes Hormone therapy."
+            }
+        ],
+        "medications": [
+            {
+                "medication_id": "M6281",
+                "name": "Tamoxifen",
+                "dosage": "20 mg",
+                "frequency": "Once daily",
+                "start_date": "2023-06-30 05:10:26",
+                "end_date": null,
+                "prescriber": "Dr. Jane Endocrinologist",
+                "location_name": "Springfield Cancer Center"
+            }
+        ],
+        "immunizations": [
+            {
+                "immunization_id": "I8026",
+                "vaccine": "Influenza",
+                "date_administered": "2023-04-08 20:32:55",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Green Valley Cancer Institute"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L1407",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2023-06-16 22:50:38",
+                "results": {
+                    "Hemoglobin": "12.3 g/dL",
+                    "White Blood Cells": "8.4 x10^3/\u00b5L",
+                    "Platelets": "108 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            },
+            {
+                "lab_id": "L6043",
+                "test_name": "Tumor Marker Test",
+                "date": "2023-02-27 17:42:48",
+                "results": {
+                    "CA-125": null,
+                    "PSA": "5.3 ng/mL",
+                    "CA 15-3": null
+                },
+                "normal_ranges": {
+                    "CA-125": "<35 U/mL",
+                    "PSA": "<4 ng/mL",
+                    "CA 15-3": "<30 U/mL"
+                },
+                "interpretation": "Elevated levels may indicate disease activity or treatment response."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP4016",
+                "date_time": "2024-07-22 20:43:56",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "NHS Oncology Centre",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V4113",
+                "date": "2024-02-04 12:36:34",
+                "blood_pressure": "120/73 mmHg",
+                "heart_rate": "67 bpm",
+                "respiratory_rate": "15 breaths/min",
+                "temperature": "98.5\u00b0F",
+                "oxygen_saturation": "100%",
+                "weight": "59 kg",
+                "height": "152 cm",
+                "bmi": "22.8"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM1050",
+                "date": "2024-03-29 19:28:10",
+                "type": "Prostate MRI",
+                "location_name": "Hillside Cancer Care",
+                "results": "Follow-up Prostate MRI shows progressive disease.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000008",
+            "first_name": "PatientP000008",
+            "last_name": "Doe",
+            "date_of_birth": "1972-03-09 04:40:52",
+            "gender": "Female",
+            "contact_information": {
+                "address": "855 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 796265",
+                "email": "patientP000008@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000008",
+            "relationship": "Spouse",
+            "phone": "+44 7911 246038"
+        },
+        "medical_history": [
+            {
+                "condition": "Lung Cancer",
+                "diagnosis_date": "2011-09-03 18:06:35",
+                "stage": "II",
+                "treatment": [
+                    "Immunotherapy",
+                    "Lobectomy",
+                    "Chemotherapy"
+                ],
+                "notes": "Stage II Lung Cancer diagnosed. Treatment plan includes Immunotherapy, Lobectomy, Chemotherapy."
+            }
+        ],
+        "medications": [
+            {
+                "medication_id": "M7287",
+                "name": "Pemetrexed",
+                "dosage": "77 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2024-09-09 12:45:53",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "Springfield Cancer Center"
+            },
+            {
+                "medication_id": "M5325",
+                "name": "Carboplatin",
+                "dosage": "173 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2024-11-08 12:30:13",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "Maple Grove Oncology Center"
+            },
+            {
+                "medication_id": "M2591",
+                "name": "Cisplatin",
+                "dosage": "74 mg",
+                "frequency": "Every 3 weeks",
+                "start_date": "2024-07-29 04:43:06",
+                "end_date": null,
+                "prescriber": "Dr. John Oncologist",
+                "location_name": "Riverside Oncology Clinic"
+            }
+        ],
+        "immunizations": [
+            {
+                "immunization_id": "I4821",
+                "vaccine": "Influenza",
+                "date_administered": "2023-06-27 11:46:48",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Hillside Cancer Care"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L6932",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2023-02-22 03:43:11",
+                "results": {
+                    "Hemoglobin": "10.9 g/dL",
+                    "White Blood Cells": "10.1 x10^3/\u00b5L",
+                    "Platelets": "217 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP2944",
+                "date_time": "2024-02-02 08:23:07",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "Pinewood Oncology",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V2995",
+                "date": "2024-06-11 00:51:21",
+                "blood_pressure": "134/88 mmHg",
+                "heart_rate": "92 bpm",
+                "respiratory_rate": "13 breaths/min",
+                "temperature": "98.2\u00b0F",
+                "oxygen_saturation": "96%",
+                "weight": "74 kg",
+                "height": "181 cm",
+                "bmi": "24.3"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM3589",
+                "date": "2023-10-16 18:32:58",
+                "type": "Chest CT",
+                "location_name": "Springfield Cancer Center",
+                "results": "Follow-up Chest CT shows stable disease.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    },
+    {
+        "demographics": {
+            "patient_id": "P000009",
+            "first_name": "PatientP000009",
+            "last_name": "Doe",
+            "date_of_birth": "1984-12-13 16:14:14",
+            "gender": "Female",
+            "contact_information": {
+                "address": "439 Elm Street, Springfield, IL, 62704",
+                "phone": "+44 7911 375598",
+                "email": "patientP000009@example.com"
+            }
+        },
+        "emergency_contact": {
+            "name": "Spouse of PatientP000009",
+            "relationship": "Spouse",
+            "phone": "+44 7911 514976"
+        },
+        "medical_history": [
+            {
+                "condition": "Ovarian Cancer",
+                "diagnosis_date": "2015-04-13 04:49:58",
+                "stage": "III",
+                "treatment": [
+                    "Targeted therapy",
+                    "Oophorectomy"
+                ],
+                "notes": "Stage III Ovarian Cancer diagnosed. Treatment plan includes Targeted therapy, Oophorectomy."
+            }
+        ],
+        "medications": [],
+        "immunizations": [
+            {
+                "immunization_id": "I4059",
+                "vaccine": "Influenza",
+                "date_administered": "2023-08-07 10:15:51",
+                "administered_by": "NHS Oncology Clinic",
+                "location_name": "Riverbend Oncology Clinic"
+            }
+        ],
+        "blood_test_results": [
+            {
+                "lab_id": "L2372",
+                "test_name": "Complete Blood Count (CBC)",
+                "date": "2024-05-11 01:55:56",
+                "results": {
+                    "Hemoglobin": "10.7 g/dL",
+                    "White Blood Cells": "3.9 x10^3/\u00b5L",
+                    "Platelets": "203 x10^3/\u00b5L"
+                },
+                "normal_ranges": {
+                    "Hemoglobin": "12-16 g/dL",
+                    "White Blood Cells": "4-11 x10^3/\u00b5L",
+                    "Platelets": "150-450 x10^3/\u00b5L"
+                },
+                "interpretation": "Values affected by ongoing cancer treatment."
+            },
+            {
+                "lab_id": "L2333",
+                "test_name": "Tumor Marker Test",
+                "date": "2023-11-22 00:01:45",
+                "results": {
+                    "CA-125": "1.4 U/mL",
+                    "PSA": null,
+                    "CA 15-3": null
+                },
+                "normal_ranges": {
+                    "CA-125": "<35 U/mL",
+                    "PSA": "<4 ng/mL",
+                    "CA 15-3": "<30 U/mL"
+                },
+                "interpretation": "Elevated levels may indicate disease activity or treatment response."
+            }
+        ],
+        "appointments": [
+            {
+                "appointment_id": "AP8770",
+                "date_time": "2024-03-30 02:23:15",
+                "type": "Oncology Follow-up",
+                "with": "Dr. John Oncologist",
+                "location_name": "City Cancer Institute",
+                "status": "Scheduled",
+                "notes": "Review treatment progress and discuss next steps."
+            }
+        ],
+        "vital_signs": [
+            {
+                "vital_id": "V8097",
+                "date": "2024-10-25 20:17:04",
+                "blood_pressure": "119/85 mmHg",
+                "heart_rate": "69 bpm",
+                "respiratory_rate": "12 breaths/min",
+                "temperature": "98.1\u00b0F",
+                "oxygen_saturation": "95%",
+                "weight": "71 kg",
+                "height": "181 cm",
+                "bmi": "24.9"
+            }
+        ],
+        "imaging_results": [
+            {
+                "imaging_id": "IM1918",
+                "date": "2024-12-30 23:54:17",
+                "type": "Pelvic CT",
+                "location_name": "Green Valley Cancer Institute",
+                "results": "Follow-up Pelvic CT shows complete response.",
+                "radiologist": "Dr. Emily Imaging"
+            }
+        ]
+    }
+]

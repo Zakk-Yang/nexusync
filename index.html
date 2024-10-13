@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <title>NexuSync Chat Interface</title>
     <style>
         * {
@@ -30,10 +31,11 @@
         .header {
             background-color: #007bff;
             color: white;
-            padding: 1rem;
+            padding: 0.5rem 1rem; /* Reduced vertical padding */
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 60px; /* Set a fixed height for the header */
         }
         .header h1 {
             font-size: 1.5rem;
@@ -42,6 +44,12 @@
         .header-left {
             display: flex;
             align-items: center;
+        }
+        .nexusync-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            margin-left: 10px;
         }
         .header-buttons {
             display: flex;
@@ -78,10 +86,22 @@
             border-bottom-right-radius: 0;
         }
         .assistant-message {
-            background-color: #e5e5ea;
-            color: black;
-            margin-right: auto;
-            border-bottom-left-radius: 0;
+            position: relative;
+        }
+        .download-pdf-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+        .assistant-message:hover .download-pdf-button {
+            display: block;
         }
         .input-area {
             display: flex;
@@ -188,6 +208,11 @@
             border-radius: 5px;
             overflow-x: auto;
         }
+        .nhs-logo {
+            height: 20px; /* Set a fixed height for the logo */
+            width: auto;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -218,7 +243,7 @@
             <div class="header">
                 <div class="header-left">
                     <button id="toggle-settings" class="btn">☰</button>
-                    <h1>NexuSync Chat</h1>
+                    <span class="nexusync-title">NexuSync Chat</span>
                 </div>
                 <div class="header-buttons">
                     <button id="refresh-index" class="btn" title="Refresh Index">🔄</button>
@@ -272,7 +297,20 @@
         function addMessage(message, isUser = false) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('message', isUser ? 'user-message' : 'assistant-message');
-            messageElement.innerHTML = `<p>${escapeHTML(message)}</p>`;
+            
+            if (!isUser) {
+                const downloadButton = document.createElement('button');
+                downloadButton.classList.add('download-pdf-button');
+                downloadButton.textContent = '📥 PDF';
+                downloadButton.onclick = () => downloadPdf(messageElement);
+                messageElement.appendChild(downloadButton);
+            }
+
+            const contentElement = document.createElement('div');
+            contentElement.classList.add('message-content');
+            contentElement.innerHTML = isUser ? escapeHTML(message) : formatResponse(message);
+            messageElement.appendChild(contentElement);
+
             chatMessages.appendChild(messageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -286,9 +324,17 @@
 
             const assistantMessageElement = document.createElement('div');
             assistantMessageElement.classList.add('message', 'assistant-message');
-            const messageContent = document.createElement('p');
+            const messageContent = document.createElement('div');
+            messageContent.classList.add('message-content');
             messageContent.textContent = 'Thinking...';
             assistantMessageElement.appendChild(messageContent);
+
+            const downloadButton = document.createElement('button');
+            downloadButton.classList.add('download-pdf-button');
+            downloadButton.textContent = '📥 PDF';
+            downloadButton.onclick = () => downloadPdf(assistantMessageElement);
+            assistantMessageElement.appendChild(downloadButton);
+
             chatMessages.appendChild(assistantMessageElement);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -345,7 +391,13 @@
         function formatResponse(responseText) {
             const sourcesMarker = '\n\n**Sources:**\n';
             const [response, sources] = responseText.split(sourcesMarker);
-            let formattedResponse = escapeHTML(response.trim());
+            
+            // Parse the response text as Markdown
+            let formattedResponse = marked(response.trim());
+            
+            // Wrap the parsed Markdown in a div for styling
+            formattedResponse = `<div class="markdown-content">${formattedResponse}</div>`;
+            
             if (sources) {
                 const sourcesList = sources.trim().split('\n').map(source => {
                     return escapeHTML(source);
@@ -432,30 +484,27 @@
                 }
             }
         }
-        function formatResponse(responseText) {
-            const sourcesMarker = '\n\n**Sources:**\n';
-            const [response, sources] = responseText.split(sourcesMarker);
+
+        function downloadPdf(content) {
+            const element = content.cloneNode(true);
             
-            // Parse the response text as Markdown
-            let formattedResponse = marked(response.trim());
-            
-            // Wrap the parsed Markdown in a div for styling
-            formattedResponse = `<div class="markdown-content">${formattedResponse}</div>`;
-            
-            if (sources) {
-                const sourcesList = sources.trim().split('\n').map(source => {
-                    return escapeHTML(source);
-                }).join('<br>');
-                formattedResponse += `<div class="sources"><strong>Sources:</strong><br>${sourcesList}</div>`;
+            // Remove the download button from the cloned content
+            const downloadButton = element.querySelector('.download-pdf-button');
+            if (downloadButton) {
+                downloadButton.remove();
             }
-            return formattedResponse;
+
+            const opt = {
+                margin: 10,
+                filename: 'ai_response.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().from(element).set(opt).save();
         }
 
-        function escapeHTML(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
     </script>
 </body>
 </html>

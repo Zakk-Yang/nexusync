@@ -36,9 +36,22 @@ Try yourself:
 ```python
 from nexusync import NexuSync
 
-# Customize your parameters
+# Customize your parameters for openai model, create .env in the src folder to include OPENAI_API_KEY = 'sk-xxx'
+OPENAI_MODEL_YN = True 
+EMBEDDING_MODEL = "text-embedding-3-large" 
+LANGUAGE_MODEL = "gpt-4o-mini"
+TEMPERATURE = 0.4 # range from 0 to 1, higher means higher creativitiy level
+CHROMA_DB_DIR = 'chroma_db' # Your path to the chroma db
+INDEX_PERSIST_DIR = 'index_storage' # Your path to the index storage
+CHROMA_COLLECTION_NAME = 'my_collection' 
+INPUT_DIRS = ["../sample_docs"] # can specify multiple document paths
+CHUNK_SIZE = 1024 # Size of text chunks for creating embeddings
+CHUNK_OVERLAP = 20 # Overlap between text chunks to maintain context
+RECURSIVE = True # Recursive or not under one folder
+
+# Customize your parameters for ollama model
 OPENAI_MODEL_YN = False # if False, you will use ollama model
-EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5" # suggested embedding model
+EMBEDDING_MODEL = "BAAI/bge-base-en-v1.5" # suggested embedding model, you can replace with any HuggingFace embedding models
 LANGUAGE_MODEL = 'llama3.2' # you need to download ollama model first, please check https://ollama.com/download
 TEMPERATURE = 0.4 # range from 0 to 1, higher means higher creativitiy level
 CHROMA_DB_DIR = 'chroma_db' # Your path to the chroma db
@@ -49,9 +62,10 @@ CHUNK_SIZE = 1024 # Size of text chunks for creating embeddings
 CHUNK_OVERLAP = 20 # Overlap between text chunks to maintain context
 RECURSIVE = True # Recursive or not under one folder
 
+
 # Initialize vector DB
 ns = NexuSync(input_dirs=INPUT_DIRS, 
-              openai_model_yn=False, 
+              openai_model_yn=OPENAI_MODEL_YN, 
               embedding_model=EMBEDDING_MODEL, 
               language_model=LANGUAGE_MODEL, 
               temperature=TEMPERATURE, 
@@ -108,18 +122,6 @@ ns.refresh_index()
 # Rebuild your index if you changed the embedding/language model
 from nexusync import rebuild_index
 
-OPENAI_MODEL_YN = True # if False, you will use ollama model
-EMBEDDING_MODEL = "text-embedding-3-large" # suggested embedding model
-LANGUAGE_MODEL = 'gpt-4o-mini' # you need to download ollama model first, please check https://ollama.com/download
-TEMPERATURE = 0.4 # range from 0 to 1, higher means higher creativitiy level
-CHROMA_DB_DIR = 'chroma_db'
-INDEX_PERSIST_DIR = 'index_storage'
-CHROMA_COLLECTION_NAME = 'my_collection'
-INPUT_DIRS = ["../sample_docs"] # can specify multiple document paths
-CHUNK_SIZE = 1024
-CHUNK_OVERLAP = 20
-RECURSIVE = True
-
 rebuild_index(input_dirs=INPUT_DIRS, 
               openai_model_yn=OPENAI_MODEL_YN, 
               embedding_model=EMBEDDING_MODEL, 
@@ -135,7 +137,7 @@ rebuild_index(input_dirs=INPUT_DIRS,
 
 # Reinitialize after rebuilding
 ns = NexuSync(input_dirs=INPUT_DIRS, 
-              openai_model_yn=False, 
+              openai_model_yn=OPENAI_MODEL_YN, 
               embedding_model=EMBEDDING_MODEL, 
               language_model=LANGUAGE_MODEL, 
               temperature=TEMPERATURE, 

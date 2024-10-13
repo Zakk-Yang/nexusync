@@ -7,6 +7,7 @@ from .models.embedding_models import set_embedding_model
 from .models.language_models import set_language_model
 from nexusync.utils.logging_config import get_logger
 from typing import List, Dict, Any
+from dotenv import load_dotenv
 
 
 class NexuSync:
@@ -24,6 +25,7 @@ class NexuSync:
         chunk_overlap: int = 20,
         recursive: bool = True,
     ):
+        load_dotenv()
         self.logger = get_logger("nexusync.NexuSync")
         self.input_dirs = input_dirs
         self.embedding_model = embedding_model
