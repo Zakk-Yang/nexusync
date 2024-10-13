@@ -16,8 +16,19 @@ NexuSync is a lightweight and powerful library of Retrieval-Augmented Generation
 - **Customizable Embedding Options**: Choose between various embedding models to suit your needs and constraints.
 - **Incremental Updates**: Easily update or insert new documents into the index without rebuilding from scratch.
 - **Automatic Deletion Handling**: Documents removed from the filesystem are automatically removed from the index.
-
-## Installation
+- **Extention Support**: 
+  - `.csv` - comma-separated values
+  - `.docx` - Microsoft Word
+  - `.epub` - EPUB ebook format
+  - `.hwp` - Hangul Word Processor
+  - `.ipynb` - Jupyter Notebook
+  - `.jpeg`, `.jpg` - JPEG image
+  - `.mbox` - MBOX email archive
+  - `.md` - Markdown
+  - `.pdf` - Portable Document Format
+  - `.png` - Portable Network Graphics
+  - `.ppt`, `.pptm`, `.pptx` - Microsoft PowerPoint
+  - `.json` - josn
 
 To install NexuSync, run the following command:
 
