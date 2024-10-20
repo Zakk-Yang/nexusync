@@ -1,6 +1,6 @@
-[![PyPI version](https://badge.fury.io/py/nexusync.svg)](https://badge.fury.io/py/nexusync)
-[![Downloads](https://static.pepy.tech/badge/nexusync)](https://pepy.tech/project/nexusync)
+[pypi](https://pypi.org/project/nexusync/)
 [GitHub](https://github.com/Zakk-Yang/nexusync)
+[![Downloads](https://static.pepy.tech/badge/nexusync)](https://pepy.tech/project/nexusync)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/nexusync_logo.png" alt="NexuSync Logo" width="200"/>
