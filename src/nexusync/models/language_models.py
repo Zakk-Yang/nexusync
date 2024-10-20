@@ -13,6 +13,7 @@ def set_language_model(
     openai_model: Optional[str] = None,
     ollama_model: Optional[str] = None,
     temperature: Optional[float] = 0.7,
+    base_url: Optional[str] = None,
 ) -> None:
     """
     Set up the language model for the index.
@@ -21,6 +22,7 @@ def set_language_model(
         openai_model (Optional[str]): Name of the OpenAI model.
         ollama_model (Optional[str]): Name of the Ollama model.
         temperature (Optional[float]): Temperature for the language model.
+        base_url (Optional[str]): Ollama base url
 
     Raises:
         ValueError: If both or neither model is specified, or if OpenAI API key is missing.
@@ -40,5 +42,9 @@ def set_language_model(
         )
         logger.info(f"Using OpenAI LLM model: {openai_model}")
     else:
-        Settings.llm = Ollama(model=ollama_model, temperature=temperature)
-        logger.info(f"Using Ollama LLM model: {ollama_model}")
+        Settings.llm = Ollama(
+            model=ollama_model, temperature=temperature, base_url=base_url
+        )
+        logger.info(
+            f"Ollama LLM initialized with model: {ollama_model} and base_url: {base_url}"
+        )

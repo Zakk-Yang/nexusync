@@ -38,6 +38,7 @@ def rebuild_index(
     chunk_overlap: int,
     chunk_size: int,
     recursive: bool,
+    base_url: Optional[str] = None,
 ):
     """
     Standalone function to rebuild the index.
@@ -55,7 +56,9 @@ def rebuild_index(
 
     else:
         set_embedding_model(huggingface_model=embedding_model)
-        set_language_model(ollama_model=language_model, temperature=temperature)
+        set_language_model(
+            ollama_model=language_model, temperature=temperature, base_url=base_url
+        )
 
     # Step 1: Delete the existing index directory
     if os.path.exists(index_persist_dir):
@@ -82,14 +85,22 @@ def rebuild_index(
     except FileNotFoundError:
         logger.warning("Index not found. Building a new index.")
         document_list = []
+        total_files = 0
         for file_path in input_dirs:
             if not os.path.isdir(file_path):
                 logger.error(f"Directory {file_path} does not exist.")
                 raise ValueError(f"Directory {file_path} does not exist.")
+            # Count files before loading
+            file_count = sum(
+                len(files)
+                for _, _, files in os.walk(file_path)
+                if recursive or _ == file_path
+            )
+            total_files += file_count
             documents = SimpleDirectoryReader(
                 file_path, filename_as_id=True, recursive=recursive
             ).load_data()
-            logger.info(f"Loaded {len(documents)} chunks from {file_path}.")
+            logger.info(f"Loaded {file_count} files from all directories.")
             document_list.extend(documents)
         index = VectorStoreIndex.from_documents(document_list)
         index.storage_context.persist(persist_dir=index_persist_dir)

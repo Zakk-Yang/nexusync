@@ -86,15 +86,19 @@ class Indexer:
         except FileNotFoundError:
             self.logger.warning("Index not found. Building a new index.")
             self.document_list = []
+            total_files = 0
             for file_path in self.input_dirs:
                 if not os.path.isdir(file_path):
                     self.logger.error(f"Directory {file_path} does not exist.")
                     raise ValueError(f"Directory {file_path} does not exist.")
+                file_count = sum(len(files) for _, _, files in os.walk(file_path))
+                total_files += file_count
                 documents = SimpleDirectoryReader(
                     file_path, filename_as_id=True
                 ).load_data()
-                self.logger.info(f"Loaded {len(documents)} chunks from {file_path}.")
+                self.logger.info(f"Loaded {total_files} files from all directories.")
                 self.document_list.extend(documents)
+
             self.index = VectorStoreIndex.from_documents(self.document_list)
             self.index.storage_context.persist(persist_dir=self.index_persist_dir)
             chroma_client = chromadb.PersistentClient(path=self.chroma_db_dir)
@@ -175,12 +179,19 @@ class Indexer:
             refreshed_docs = self.index.refresh_ref_docs(documents)
             num_refreshed = sum(1 for r in refreshed_docs if r)
             total_refreshed += num_refreshed
-            self.logger.info(f"Updated {num_refreshed} files in {input_dir}")
 
-            for doc, is_refreshed in zip(documents, refreshed_docs):
-                if is_refreshed:
-                    doc_path = doc.metadata.get("file_path", "Unknown path")
-                    self.logger.info(f"Updated file: {doc_path}")
+            if num_refreshed == 0:
+                self.logger.info(f"No files were modified or added in {input_dir}")
+            else:
+                for doc, is_refreshed in zip(documents, refreshed_docs):
+                    if is_refreshed:
+                        doc_path = doc.metadata.get("file_path", "Unknown path")
+                        self.logger.info(f"Updated file: {doc_path}")
+
+        if total_refreshed == 0:
+            self.logger.info("No files were modified or added in any directory")
+        else:
+            self.logger.info(f"Total files modified or added: {total_refreshed}")
 
     def delete(self, current_files: set):
         """Delete documents from the index if their corresponding files have been deleted from the filesystem."""

@@ -16,6 +16,7 @@ class NexuSync:
         input_dirs: List[str],
         openai_model_yn: bool = None,
         language_model: str = None,
+        base_url: str = None,
         embedding_model: str = None,
         temperature: float = 0.4,
         chroma_db_dir: str = "chroma_db",
@@ -30,6 +31,7 @@ class NexuSync:
         self.input_dirs = input_dirs
         self.embedding_model = embedding_model
         self.language_model = language_model
+        self.base_url = str(base_url) if base_url else None
         self.temperature = temperature
         self.chroma_db_dir = chroma_db_dir
         self.index_persist_dir = index_persist_dir
@@ -68,7 +70,9 @@ class NexuSync:
         else:
             set_embedding_model(huggingface_model=self.embedding_model)
             set_language_model(
-                ollama_model=self.language_model, temperature=self.temperature
+                ollama_model=self.language_model,
+                temperature=self.temperature,
+                base_url=self.base_url,
             )
 
     def initialize_stream_chat(
