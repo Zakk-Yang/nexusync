@@ -36,9 +36,15 @@ pip install nexusync
 
 Or  `git clone https://github.com/Zakk-Yang/nexusync.git`
 
+---
+
+
 ## 🛠 Prerequisites
 - Python 3.7 or higher
 - Install Ollama: https://ollama.com/download or OpenAI API (need to create .env file to include OPENAI_API_KEY = 'sk-xxx')
+
+---
+
 
 ## 🌟 Quick Start
 
@@ -255,6 +261,7 @@ print(f"Query: {query}")
 print(f"Response: {response['response']}")
 print(f"Response: {response['metadata']}")
 ```
+---
 
 ## 🎯 User Interface
 1. git clone or download this project: 
@@ -277,11 +284,17 @@ Ensure that the parameters in `back_end_api.py` align with the settings in the s
   <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/chat_snapshot.png" alt="Screen Shot" width="600"/>
 </p>
 
+---
+
 ## 📚 Documentation & Examples
 For more detailed usage examples, check out the demo notebooks.
 
+---
+
 ## 📝 License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
 
 ## 📫 Contact
 For questions or suggestions, feel free to open an issue or contact the maintainer:
@@ -289,6 +302,8 @@ For questions or suggestions, feel free to open an issue or contact the maintain
 Name: Zakk Yang
 Email: zakkyang@hotmail.com
 GitHub: Zakk-Yang
+
+---
 
 ## 🌟 Support
 If you find this project helpful, please give it a ⭐ on [GitHub](https://github.com/Zakk-Yang/nexusync)! Your support is appreciated.
