@@ -7,7 +7,7 @@
 </p>
 
 
-Newest version = 0.3.5: torch package needs to be installed seperately to make sure your system env matches; 
+Newest version = 0.3.6: torch package needs to be installed seperately to make sure your system env matches; 
 
 # NexuSync 
 
@@ -33,14 +33,7 @@ Newest version = 0.3.5: torch package needs to be installed seperately to make s
 
 ## 🛠 Prerequisites
 - Python 3.10 or higher
-- Install Pytorch, please visit https://pytorch.org/get-started/locally/ (For wsl2, please select Linux; if you are using cuda, make sure your cuda version matches)
-For CUDA 11.8 (example, for windows and wsl2/linux)
-`pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
-For CUDA 12.1 (example, for windows and wsl2/linux)
-`pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
-For macOS
-`pip3 install torch torchvision torchaudio`
-
+- Install Pytorch, please visit https://pytorch.org/get-started/locally/ 
 - Install Ollama: https://ollama.com/download or OpenAI API (need to create .env file to include OPENAI_API_KEY = 'sk-xxx')
 - Suggested to use conda for your env control to avoid enviroment conflicts:
 
@@ -94,8 +87,17 @@ conda activate <your_env_name>
 ```bash
 pip install nexusync
 ```
-
 Or  `git clone https://github.com/Zakk-Yang/nexusync.git`
+
+
+3. Install pytorch (https://pytorch.org/get-started/locally/):
+- If you are using cuda, make sure your cuda version matches:
+  - For CUDA 11.8 (example, for windows and wsl2/linux)
+  `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
+  - For CUDA 12.1 (example, for windows and wsl2/linux)
+  `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
+  - For macOS
+  `pip3 install torch torchvision torchaudio`
 
 ---
 
