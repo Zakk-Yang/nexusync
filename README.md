@@ -1,10 +1,13 @@
-[pypi](https://pypi.org/project/nexusync/)
-[GitHub](https://github.com/Zakk-Yang/nexusync)
+[pypi](https://pypi.org/project/nexusync/)<br>
+[GitHub](https://github.com/Zakk-Yang/nexusync)<br>
 [![Downloads](https://static.pepy.tech/badge/nexusync)](https://pepy.tech/project/nexusync)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/Zakk-Yang/nexusync/main/assets/nexusync_logo.png" alt="NexuSync Logo" width="200"/>
 </p>
+
+
+Newest version = 0.3.3: torch package needs to be installed seperately to make sure your system env matches; 
 
 # NexuSync 
 
@@ -27,6 +30,15 @@
 
 ---
 
+
+## 🛠 Prerequisites
+- Python 3.10 or higher
+- Install Pytorch, please visit https://pytorch.org/get-started/locally/ (For wsl2, please select Linux)
+- Install Ollama: https://ollama.com/download or OpenAI API (need to create .env file to include OPENAI_API_KEY = 'sk-xxx')
+
+---
+
+
 ## 📦Installation
 To install NexuSync, run the following command:
 
@@ -38,12 +50,6 @@ Or  `git clone https://github.com/Zakk-Yang/nexusync.git`
 
 ---
 
-
-## 🛠 Prerequisites
-- Python 3.7 or higher
-- Install Ollama: https://ollama.com/download or OpenAI API (need to create .env file to include OPENAI_API_KEY = 'sk-xxx')
-
----
 
 
 ## 🌟 Quick Start
