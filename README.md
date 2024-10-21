@@ -7,7 +7,7 @@
 </p>
 
 
-Newest version = 0.3.3: torch package needs to be installed seperately to make sure your system env matches; 
+Newest version = 0.3.4: torch package needs to be installed seperately to make sure your system env matches; 
 
 # NexuSync 
 
@@ -33,14 +33,63 @@ Newest version = 0.3.3: torch package needs to be installed seperately to make s
 
 ## 🛠 Prerequisites
 - Python 3.10 or higher
-- Install Pytorch, please visit https://pytorch.org/get-started/locally/ (For wsl2, please select Linux)
+- Install Pytorch, please visit https://pytorch.org/get-started/locally/ (For wsl2, please select Linux; if you are using cuda, make sure your cuda version matches)
+For CUDA 11.8 (example, for windows and wsl2/linux)
+`pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
+For CUDA 12.1 (example, for windows and wsl2/linux)
+`pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121`
+For macOS
+`pip3 install torch torchvision torchaudio`
+
 - Install Ollama: https://ollama.com/download or OpenAI API (need to create .env file to include OPENAI_API_KEY = 'sk-xxx')
+- Suggested to use conda for your env control to avoid enviroment conflicts:
+
+ **Install `conda` for WSL2 (Windows Subsystem for Linux 2)**: 
+1. Open your WSL2 terminal
+2. Download the Miniconda installer:
+`wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+3. Run the installer:
+`bash Miniconda3-latest-Linux-x86_64.sh`
+4. Follow the prompts to complete the installation
+5. Restart your terminal or run source ~/.bashrc
+
+ **Install `conda` for Windows**: 
+1. Download the Miniconda installer for Windows from https://docs.conda.io/en/latest/miniconda.html
+2. Run the .exe file and follow the installation prompts
+3. Choose whether to add Conda to your PATH environment variable during installation
+
+ **Install `conda` for Linux**: 
+1. Open a terminal
+2. Download the Miniconda installer
+`wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`
+3. Run the installer:
+`bash Miniconda3-latest-Linux-x86_64.sh`
+4.Follow the prompts to complete the installation
+5. Restart your terminal or run `source ~/.bashrc`
+
+ **Install `conda` for macOS**: 
+1. Open a terminal
+2. Download the Miniconda installer
+`curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh`
+3. Run the installer:
+`bash Miniconda3-latest-MacOSX-x86_64.sh`
+4.Follow the prompts to complete the installation
+5. Restart your terminal or run `source ~/.bash_profile`
+
+**After installation on any platform, verify the installation by running**:
+`conda --version`
 
 ---
 
 
 ## 📦Installation
-To install NexuSync, run the following command:
+1. Use conda to create env in your project folder:
+```bash
+conda create env --name <your_env_name> python=3.10
+conda activate <your_env_name>
+```
+
+2. Then, install NexuSync under your conda env, run the following command:
 
 ```bash
 pip install nexusync
@@ -49,7 +98,6 @@ pip install nexusync
 Or  `git clone https://github.com/Zakk-Yang/nexusync.git`
 
 ---
-
 
 
 ## 🌟 Quick Start
