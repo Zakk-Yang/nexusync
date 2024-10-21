@@ -7,7 +7,7 @@
 </p>
 
 
-Newest version = 0.3.4: torch package needs to be installed seperately to make sure your system env matches; 
+Newest version = 0.3.5: torch package needs to be installed seperately to make sure your system env matches; 
 
 # NexuSync 
 

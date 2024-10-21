@@ -9,7 +9,7 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     name="nexusync",
-    version="0.3.4",
+    version="0.3.5",
     author="Zakk Yang",
     author_email="zakkyang@protonmail.com",
     description="A powerful document indexing and querying tool built on top of LlamaIndex",
@@ -21,7 +21,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.10",
     install_requires=[
         "llama_index",
         "llama-index-llms-ollama",
