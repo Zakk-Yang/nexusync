@@ -9,6 +9,10 @@
 
 Newest version = 0.3.6: torch package needs to be installed seperately to make sure your system env matches; 
 
+Development Plan for the next version:
+- Adding PDF OCF using ollama llama3.2 vision
+
+
 # NexuSync 
 
 *NexuSync* is a lightweight yet powerful library for building Retrieval-Augmented Generation (RAG) systems, built on top of **LlamaIndex**. It offers a simple and user-friendly interface for developers to configure and deploy RAG systems efficiently. Choose between using the **Ollama LLM** model for offline, privacy-focused applications or the **OpenAI API** for a hosted solution.
